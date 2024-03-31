@@ -16,13 +16,13 @@ public class Document {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String filename;
-    private Long filesize;
+    private String name;
+    private Long size;
     @Column(name = "last_modified")
     private LocalDateTime lastModified;
     @Lob
-    @Column(name = "file_content")
-    private byte[] fileContent;
+    @Column(name = "content")
+    private byte[] content;
     @ManyToOne
     @JoinColumn(name = "tag_id")
     private DocumentTag tag;

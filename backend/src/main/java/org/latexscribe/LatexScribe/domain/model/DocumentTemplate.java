@@ -14,14 +14,14 @@ import org.latexscribe.LatexScribe.domain.enums.TemplateCategory;
 public class DocumentTemplate {
     @Id
     private Long id;
-    private String filename;
-    private Long filesize;
+    private String name;
+    private Long size;
     @Lob
-    @Column(name = "file_content")
-    private byte[] fileContent;
-    @Column(name = "template_category")
+    @Column(name = "content")
+    private byte[] content;
+    @Column(name = "category")
     @Enumerated(value = EnumType.STRING)
-    private TemplateCategory templateCategory;
+    private TemplateCategory category;
     @ManyToOne
     @JoinColumn(name = "user_id")
     public User user;
