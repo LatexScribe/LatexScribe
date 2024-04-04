@@ -13,15 +13,20 @@ import org.latexscribe.LatexScribe.domain.enums.TemplateCategory;
 @Table(name = "document_template")
 public class DocumentTemplate {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     private String name;
+
     private Long size;
-    @Lob
-    @Column(name = "content")
+
+    @Column
     private byte[] content;
-    @Column(name = "category")
+
+    @Column(name = "template_category")
     @Enumerated(value = EnumType.STRING)
     private TemplateCategory category;
+
     @ManyToOne
     @JoinColumn(name = "user_id")
     public User user;
