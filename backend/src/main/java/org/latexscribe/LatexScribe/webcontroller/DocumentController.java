@@ -1,6 +1,5 @@
-package org.latexscribe.LatexScribe.controller;
+package org.latexscribe.LatexScribe.webcontroller;
 
-import jakarta.websocket.server.PathParam;
 import lombok.AllArgsConstructor;
 import org.latexscribe.LatexScribe.domain.dto.DocumentDto;
 import org.latexscribe.LatexScribe.domain.model.Document;
@@ -22,7 +21,7 @@ public class DocumentController {
         Optional<Document> document = documentService.findById(id);
         if (document.isEmpty()) {
             throw new ResponseStatusException(
-                HttpStatus.NOT_FOUND, "document not found"
+                    HttpStatus.NOT_FOUND, "document not found"
             );
         }
         return document.get();
@@ -30,16 +29,7 @@ public class DocumentController {
 
     @PostMapping
     public HttpStatus putDocument(@RequestBody DocumentDto documentDto) {
-        // TODO: Could implement model to dto mapper to clean up be below code.
-        Document document = new Document();
-        document.setName(documentDto.name());
-        document.setSize(documentDto.size());
-        document.setLastModified(documentDto.lastModified());
-        document.setContent(documentDto.content());
-        document.setTemplate(documentDto.template());
-        document.setTag(documentDto.tag());
-
-        documentService.save(document);
+        documentService.save(documentDto);
         return HttpStatus.OK;
     }
 

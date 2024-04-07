@@ -1,6 +1,7 @@
 package org.latexscribe.LatexScribe.service.impl;
 
 import lombok.AllArgsConstructor;
+import org.latexscribe.LatexScribe.domain.dto.DocumentDto;
 import org.latexscribe.LatexScribe.domain.model.Document;
 import org.latexscribe.LatexScribe.domain.model.User;
 import org.latexscribe.LatexScribe.repository.DocumentRepository;
@@ -40,10 +41,17 @@ public class DocumentServiceImpl implements IDocumentService {
     }
 
     @Override
-    public void save(Document document) {
-        if (document == null) {
+    public void save(DocumentDto documentDto) {
+        if (documentDto == null) {
             throw new IllegalArgumentException("provided document must not be null");
         }
+        Document document = new Document();
+        document.setName(documentDto.name());
+        document.setSize(documentDto.size());
+        document.setLastModified(documentDto.lastModified());
+        document.setContent(documentDto.content());
+        document.setTemplate(documentDto.template());
+        document.setTag(documentDto.tag());
         documentRepository.saveAndFlush(document);
     }
 }

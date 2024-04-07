@@ -1,6 +1,9 @@
 package org.latexscribe.LatexScribe.domain.model;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
@@ -13,8 +16,11 @@ import lombok.Setter;
 public class User {
     @Id
     private String username;
+
     private String password;
+
     @Column(name = "full_name")
     private String fullName;
+
     private String email;
 }
