@@ -1,1 +1,41 @@
-<p>sign-up works!</p>
+<h1>Create Account</h1>
+
+    <form [formGroup]="signup_form">
+
+        <label for="full_name">Full Name</label><br>
+        <input type="text" [formControl]="signup_form.controls.full_name"
+        id="full_name" name="full_name"><br>
+
+        <label for="username">Username</label><br>
+        <input type="text" [formControl]="signup_form.controls.username"
+        id="username" name="username"><br>
+
+        <label for="email">Email</label><br>
+        <input type="text" [formControl]="signup_form.controls.email"
+        id="email" name="email"><br>
+
+        <label for="password">Password</label><br>
+        <input type="text" [formControl]="signup_form.controls.password"
+        id="password" name="password"><br>
+
+        <button id="signup" type="submit" [disabled]="!signup_form.valid">Create Account</button>
+    </form>
+
+    <div *ngIf="signup_form.invalid && signup_form.controls.full_name.touched" style="width: 100%;">     
+        <div style="background-color: palegoldenrod">
+            <b>Validation errors</b>
+            <ol>
+                <li *ngIf="signup_form.controls.full_name.errors?.['required']">The full name field is required.</li>
+              
+                <li *ngIf="signup_form.controls.username.errors?.['required']">The username field is required.</li>
+              
+                <li *ngIf="signup_form.controls.email.errors?.['required']">The email field is required.</li>
+              
+                <li *ngIf="signup_form.controls.password.errors?.['required']">The password field is required.</li>
+              
+              
+            </ol>
+          </div>
+        
+      </div>    
+
