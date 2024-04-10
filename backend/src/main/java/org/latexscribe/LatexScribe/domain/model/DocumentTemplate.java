@@ -12,10 +12,6 @@ import org.latexscribe.LatexScribe.domain.enums.TemplateCategory;
 @RequiredArgsConstructor
 @Table(name = "document_template")
 public class DocumentTemplate {
-    @ManyToOne
-    @JoinColumn(name = "user_id")
-    public User user;
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -30,4 +26,8 @@ public class DocumentTemplate {
     @Column(name = "template_category")
     @Enumerated(value = EnumType.STRING)
     private TemplateCategory category;
+
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
 }
