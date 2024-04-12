@@ -32,8 +32,8 @@ public class DocumentController {
         return document.get();
     }
 
-    @PostMapping
-    public HttpStatus putDocument(@RequestBody DocumentDto documentDto) {
+    @PostMapping("/create")
+    public HttpStatus createDocument(@RequestBody DocumentDto documentDto) {
         documentService.save(documentDto);
         return HttpStatus.OK;
     }
@@ -52,4 +52,5 @@ public class DocumentController {
         }
         return documentService.findByTag(tag.get());
     }
+
 }
