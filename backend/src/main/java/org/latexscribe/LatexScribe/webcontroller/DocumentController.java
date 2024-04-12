@@ -27,7 +27,7 @@ public class DocumentController {
         return document.get();
     }
 
-    @PostMapping
+    @PostMapping("/create")
     public HttpStatus putDocument(@RequestBody DocumentDto documentDto) {
         documentService.save(documentDto);
         return HttpStatus.OK;

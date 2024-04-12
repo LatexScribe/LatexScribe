@@ -19,18 +19,18 @@ import java.util.Optional;
 public class TemplateController {
     private final ITemplateService templateService;
 
-    @GetMapping
+    @GetMapping("/")
     public List<DocumentTemplate> listAll() {
         return templateService.listAll();
     }
 
-    @GetMapping("/my_templates")
-    public List<DocumentTemplate> listAllByUser(User user) {
-        return templateService.listAllByUser(user);
-    }
+//    @GetMapping("/my_templates")
+//    public List<DocumentTemplate> listAllByUser(User user) {
+//        return templateService.listAllByUser(user);
+//    }
 
-    @GetMapping("/{category}")
-    public List<DocumentTemplate> listAllByCategory(@PathVariable TemplateCategory category) {
+    @GetMapping("/category")
+    public List<DocumentTemplate> listAllByCategory(@RequestParam TemplateCategory category) {
         return templateService.listAllByCategory(category);
     }
 
@@ -45,20 +45,20 @@ public class TemplateController {
         return template.get();
     }
 
-    @PostMapping
+    @PostMapping("/create")
     public HttpStatus create(@RequestBody TemplateDto templateDto) {
         templateService.create(templateDto);
         return HttpStatus.OK;
     }
 
 
-    @PutMapping("/{id}")
+    @PutMapping("/update/{id}")
     public HttpStatus update(@PathVariable Long id, @RequestBody TemplateDto templateDto) {
         templateService.update(id, templateDto);
         return HttpStatus.OK;
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/delete/{id}")
     public HttpStatus delete(@PathVariable Long id) {
         templateService.delete(id);
         return HttpStatus.OK;

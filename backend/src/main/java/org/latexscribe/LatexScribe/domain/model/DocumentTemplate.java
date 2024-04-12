@@ -20,7 +20,6 @@ public class DocumentTemplate {
 
     private Long size;
 
-    @Column
     private byte[] content;
 
     @Column(name = "template_category")

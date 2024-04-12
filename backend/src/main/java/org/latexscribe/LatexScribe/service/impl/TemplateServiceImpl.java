@@ -25,16 +25,25 @@ public class TemplateServiceImpl implements ITemplateService {
 
     @Override
     public List<DocumentTemplate> listAllByUser(User user) {
+        if (user == null) {
+            throw new IllegalArgumentException("provided user is null");
+        }
         return templateRepository.findByUser(user);
     }
 
     @Override
     public List<DocumentTemplate> listAllByCategory(TemplateCategory category) {
+        if (category == null) {
+            throw new IllegalArgumentException("category is null");
+        }
         return templateRepository.findByCategory(category);
     }
 
     @Override
     public Optional<DocumentTemplate> findById(Long id) {
+        if (id == null) {
+            throw new IllegalArgumentException("provided id is null");
+        }
         return templateRepository.findById(id);
     }
 
@@ -68,6 +77,9 @@ public class TemplateServiceImpl implements ITemplateService {
 
     @Override
     public void delete(Long id) {
+        if (id == null) {
+            throw new IllegalArgumentException("provided id is null");
+        }
         templateRepository.deleteById(id);
     }
 }
