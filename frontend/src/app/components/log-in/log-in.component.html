@@ -1,0 +1,29 @@
+<h1>Log in</h1>
+
+    <form [formGroup]="login_form">
+
+        <label for="email">Email</label><br>
+        <input type="text" [formControl]="login_form.controls.email"
+        id="email" name="email"><br>
+
+        <label for="password">Password</label><br>
+        <input type="text" [formControl]="login_form.controls.password"
+        id="password" name="password"><br>
+
+        <button id="login" type="submit" [disabled]="!login_form.valid">Log in</button>
+
+    </form>
+
+    <div *ngIf="login_form.invalid && login_form.controls.email.touched" style="width: 100%;">     
+        <div style=" background-color: palegoldenrod">
+            <b>Validation errors</b>
+            <ol>
+                <li *ngIf="login_form.controls.email.errors?.['required']">The email field is required.</li>
+              
+                <li *ngIf="login_form.controls.password.errors?.['required']">The password field is required.</li>
+              
+              
+            </ol>
+          </div>
+        
+      </div>    
