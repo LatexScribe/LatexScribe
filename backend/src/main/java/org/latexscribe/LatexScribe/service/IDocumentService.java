@@ -2,6 +2,7 @@ package org.latexscribe.LatexScribe.service;
 
 import org.latexscribe.LatexScribe.domain.dto.DocumentDto;
 import org.latexscribe.LatexScribe.domain.model.Document;
+import org.latexscribe.LatexScribe.domain.model.DocumentTag;
 import org.latexscribe.LatexScribe.domain.model.User;
 
 import java.util.List;
@@ -15,4 +16,7 @@ public interface IDocumentService {
     void deleteById(Long id);
 
     void save(DocumentDto document);
+
+    List<Document> findByTag(DocumentTag tag);
+
 }

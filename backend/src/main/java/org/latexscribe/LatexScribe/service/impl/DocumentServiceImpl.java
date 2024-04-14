@@ -3,6 +3,7 @@ package org.latexscribe.LatexScribe.service.impl;
 import lombok.AllArgsConstructor;
 import org.latexscribe.LatexScribe.domain.dto.DocumentDto;
 import org.latexscribe.LatexScribe.domain.model.Document;
+import org.latexscribe.LatexScribe.domain.model.DocumentTag;
 import org.latexscribe.LatexScribe.domain.model.User;
 import org.latexscribe.LatexScribe.repository.DocumentRepository;
 import org.latexscribe.LatexScribe.service.IDocumentService;
@@ -54,4 +55,11 @@ public class DocumentServiceImpl implements IDocumentService {
         document.setTag(documentDto.tag());
         documentRepository.saveAndFlush(document);
     }
+
+    @Override
+    public List<Document> findByTag(DocumentTag tag) {
+        return documentRepository.findByTag(tag);
+    }
+
+
 }
