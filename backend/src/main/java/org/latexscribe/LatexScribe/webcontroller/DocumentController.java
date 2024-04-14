@@ -32,7 +32,7 @@ public class DocumentController {
         return document.get();
     }
 
-    @PostMapping("/create")
+    @PostMapping
     public HttpStatus createDocument(@RequestBody DocumentDto documentDto) {
         documentService.save(documentDto);
         return HttpStatus.OK;
