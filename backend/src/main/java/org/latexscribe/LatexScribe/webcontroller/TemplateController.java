@@ -45,20 +45,20 @@ public class TemplateController {
         return template.get();
     }
 
-    @PostMapping("/create")
+    @PostMapping
     public HttpStatus create(@RequestBody TemplateDto templateDto) {
         templateService.create(templateDto);
         return HttpStatus.OK;
     }
 
 
-    @PutMapping("/update/{id}")
+    @PutMapping("/{id}")
     public HttpStatus update(@PathVariable Long id, @RequestBody TemplateDto templateDto) {
         templateService.update(id, templateDto);
         return HttpStatus.OK;
     }
 
-    @DeleteMapping("/delete/{id}")
+    @DeleteMapping("/{id}")
     public HttpStatus delete(@PathVariable Long id) {
         templateService.delete(id);
         return HttpStatus.OK;
