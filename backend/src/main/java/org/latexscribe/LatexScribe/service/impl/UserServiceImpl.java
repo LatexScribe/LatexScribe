@@ -14,11 +14,11 @@ public class UserServiceImpl implements IUserService  {
     private final UserRepository userRepository;
 
     @Override
-    public void save(User user) {
+    public User save(User user) {
         if (user == null) {
             throw new IllegalArgumentException("provided user is null");
         }
-        userRepository.saveAndFlush(user);
+        return userRepository.saveAndFlush(user);
     }
 
     @Override
