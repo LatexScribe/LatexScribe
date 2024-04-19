@@ -1,5 +1,5 @@
 {
-  "name": "angular-latex-1",
+  "name": "angular-latex",
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
@@ -7,7 +7,7 @@
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
-    "serve:ssr:angular-latex-1": "node dist/angular-latex-1/server/server.mjs"
+    "serve:ssr:angular-latex": "node dist/angular-latex/server/server.mjs"
   },
   "private": true,
   "dependencies": {
