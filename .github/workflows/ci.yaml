@@ -1,0 +1,52 @@
+name: CI
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+  workflow_dispatch:
+
+jobs:
+  backend-ci:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        # Run commands inside the backend directory
+        working-directory: ./backend
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@v3
+
+      - name: Set up JDK
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'zulu'
+          java-version: '17'
+
+      - name: Setup Maven Action
+        uses: s4u/setup-maven-action@v1.2.1
+        with:
+          java-version: 17
+
+      - name: Maven Test
+        run: mvn test
+
+  frontend-ci:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        # Run commands inside the frontend directory
+        working-directory: ./frontend
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@v3
+
+      - name: Install NPM packages
+        run: npm install
+
+      - name: Run tests
+        run: npm test -- --watch=false --browsers=ChromeHeadless
+
