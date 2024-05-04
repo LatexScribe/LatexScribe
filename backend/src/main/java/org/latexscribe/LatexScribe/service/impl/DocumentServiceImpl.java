@@ -61,5 +61,8 @@ public class DocumentServiceImpl implements IDocumentService {
         return documentRepository.findByTag(tag);
     }
 
-
+    @Override
+    public List<Document> findByName(String name) {
+        return documentRepository.findByNameContainsIgnoreCase(name);
+    }
 }

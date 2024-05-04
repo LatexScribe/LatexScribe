@@ -19,4 +19,6 @@ public interface IDocumentService {
 
     List<Document> findByTag(DocumentTag tag);
 
+    List<Document> findByName(String name);
+
 }

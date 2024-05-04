@@ -22,6 +22,11 @@ public class DocumentController {
     final private IDocumentService documentService;
     final private ITagService tagService;
 
+    @GetMapping("/")
+    public List<Document> searchByName(@RequestParam String name) {
+        return documentService.findByName(name);
+    }
+
     @GetMapping("/{id}")
     public @ResponseBody Document getById(@PathVariable("id") Long id) {
         Optional<Document> document = documentService.findById(id);
@@ -53,5 +58,4 @@ public class DocumentController {
         }
         return documentService.findByTag(tag.get());
     }
-
 }
