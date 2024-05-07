@@ -1,6 +1,7 @@
 package org.latexscribe.LatexScribe.service.impl;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.gson.Gson;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
@@ -22,6 +23,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+import java.util.Date;
 
 @Service
 @RequiredArgsConstructor
@@ -44,11 +46,7 @@ public class AuthServiceImpl implements IAuthService {
         var savedUser = userService.save(user);
         var jwtToken = jwtService.generateToken(user);
         var refreshToken = jwtService.generateRefreshToken(user);
-        saveUserToken(savedUser, jwtToken);
-        return AuthResponseDto.builder()
-                .accessToken(jwtToken)
-                .refreshToken(refreshToken)
-                .build();
+        return saveUserToken(savedUser, jwtToken, refreshToken);
     }
 
     @Override
@@ -64,14 +62,10 @@ public class AuthServiceImpl implements IAuthService {
         var jwtToken = jwtService.generateToken(user);
         var refreshToken = jwtService.generateRefreshToken(user);
         revokeAllUserTokens(user);
-        saveUserToken(user, jwtToken);
-        return AuthResponseDto.builder()
-                .accessToken(jwtToken)
-                .refreshToken(refreshToken)
-                .build();
+        return saveUserToken(user, jwtToken, refreshToken);
     }
 
-    private void saveUserToken(User user, String jwtToken) {
+    private AuthResponseDto saveUserToken(User user, String jwtToken, String refreshToken) {
         var token = Token.builder()
                 .user(user)
                 .token(jwtToken)
@@ -79,7 +73,14 @@ public class AuthServiceImpl implements IAuthService {
                 .expired(false)
                 .revoked(false)
                 .build();
+
         tokenService.save(token);
+        return AuthResponseDto.builder()
+                .accessToken(jwtToken)
+                .accessTokenExpiration(new Date(System.currentTimeMillis() + jwtService.jwtExpiration))
+                .refreshToken(refreshToken)
+                .refreshTokenExpiration(new Date(System.currentTimeMillis() + jwtService.refreshExpiration))
+                .build();
     }
 
     private void revokeAllUserTokens(User user) {
@@ -94,31 +95,28 @@ public class AuthServiceImpl implements IAuthService {
     }
 
     @Override
-    public void refreshToken(
+    public AuthResponseDto refreshToken(
             HttpServletRequest request,
             HttpServletResponse response
-    ) throws IOException {
+    ) {
         final String authHeader = request.getHeader(HttpHeaders.AUTHORIZATION);
         if (authHeader == null ||!authHeader.startsWith("Bearer ")) {
-            return;
+            throw new IllegalArgumentException("Missing Authorization header");
         }
 
         final String refreshToken = authHeader.substring(7);
         final String username = jwtService.extractUsername(refreshToken);
         if (username == null) {
-            return;
+            throw new IllegalArgumentException("Expected username in JWT token");
         }
 
         var user = this.userService.findByUsername(username).orElseThrow();
-        if (jwtService.isTokenValid(refreshToken, user)) {
-            var accessToken = jwtService.generateToken(user);
-            revokeAllUserTokens(user);
-            saveUserToken(user, accessToken);
-            var authResponse = AuthResponseDto.builder()
-                    .accessToken(accessToken)
-                    .refreshToken(refreshToken)
-                    .build();
-            new ObjectMapper().writeValue(response.getOutputStream(), authResponse);
+        if (!jwtService.isTokenValid(refreshToken, user)) {
+            throw new IllegalArgumentException("JWT refresh token is invalid");
         }
+
+        var accessToken = jwtService.generateToken(user);
+        revokeAllUserTokens(user);
+        return saveUserToken(user, accessToken, refreshToken);
     }
 }
