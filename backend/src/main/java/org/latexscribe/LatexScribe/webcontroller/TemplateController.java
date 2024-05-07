@@ -20,7 +20,7 @@ import java.util.Optional;
 public class TemplateController {
     private final ITemplateService templateService;
 
-    @GetMapping("/")
+    @GetMapping
     public List<DocumentTemplate> listAll() {
         return templateService.listAll();
     }
