@@ -17,7 +17,7 @@ import java.util.Optional;
 public class TagController {
     private final ITagService tagService;
 
-    @GetMapping("/")
+    @GetMapping
     public List<DocumentTag> listAll() {
         return tagService.listAll();
     }
