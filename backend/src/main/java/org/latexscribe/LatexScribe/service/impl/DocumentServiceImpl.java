@@ -7,6 +7,9 @@ import org.latexscribe.LatexScribe.domain.model.DocumentTag;
 import org.latexscribe.LatexScribe.domain.model.User;
 import org.latexscribe.LatexScribe.repository.DocumentRepository;
 import org.latexscribe.LatexScribe.service.IDocumentService;
+import org.latexscribe.LatexScribe.service.IUserService;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -16,6 +19,7 @@ import java.util.Optional;
 @AllArgsConstructor
 public class DocumentServiceImpl implements IDocumentService {
     final private DocumentRepository documentRepository;
+    final private IUserService userService;
 
     @Override
     public List<Document> findByUser(User user) {
@@ -63,6 +67,8 @@ public class DocumentServiceImpl implements IDocumentService {
 
     @Override
     public List<Document> findByName(String name) {
-        return documentRepository.findByNameContainsIgnoreCase(name);
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+        User user = userService.findByUsername(username).orElseThrow(() -> new UsernameNotFoundException(username));
+        return documentRepository.findByNameContainsIgnoreCaseAndUser(name, user);
     }
 }
