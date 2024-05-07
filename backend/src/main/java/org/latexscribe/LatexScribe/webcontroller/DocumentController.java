@@ -22,7 +22,7 @@ public class DocumentController {
     final private IDocumentService documentService;
     final private ITagService tagService;
 
-    @GetMapping("/")
+    @GetMapping
     public List<Document> searchByName(@RequestParam String name) {
         return documentService.findByName(name);
     }
