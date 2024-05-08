@@ -7,6 +7,7 @@ import org.latexscribe.LatexScribe.domain.model.DocumentTag;
 import org.latexscribe.LatexScribe.service.IDocumentService;
 import org.latexscribe.LatexScribe.service.ITagService;
 import org.springframework.http.HttpStatus;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -22,7 +23,10 @@ public class DocumentController {
     final private ITagService tagService;
 
     @GetMapping
-    public List<Document> searchByName(@RequestParam String name) {
+    public List<Document> getUserDocuments(@RequestParam(required = false) String name) {
+        if (StringUtils.isEmpty(name)) {
+            return documentService.findByUser();
+        }
         return documentService.findByName(name);
     }
 

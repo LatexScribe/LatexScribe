@@ -22,7 +22,10 @@ public class DocumentServiceImpl implements IDocumentService {
     final private IUserService userService;
 
     @Override
-    public List<Document> findByUser(User user) {
+    public List<Document> findByUser() {
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+        User user = userService.findByUsername(username).orElseThrow(() -> new UsernameNotFoundException(username));
+
         if (user == null) {
             throw new IllegalArgumentException("provided user is null");
         }
