@@ -1,6 +1,6 @@
 <h1>Log in</h1>
 
-    <form [formGroup]="login_form">
+    <form [formGroup]="login_form" (ngSubmit)="loginUser()">
 
         <label for="email">Email</label><br>
         <input type="text" [formControl]="login_form.controls.email"

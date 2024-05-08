@@ -11,13 +11,12 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@CrossOrigin(origins = "*")
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/tags")
 public class TagController {
     private final ITagService tagService;
 
-    @GetMapping("/")
+    @GetMapping
     public List<DocumentTag> listAll() {
         return tagService.listAll();
     }

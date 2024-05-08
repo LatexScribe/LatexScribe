@@ -15,7 +15,6 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@CrossOrigin(origins = "*")
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/documents")
 public class DocumentController {

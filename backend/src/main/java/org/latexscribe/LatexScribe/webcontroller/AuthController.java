@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.*;
 import java.io.IOException;
 
 @RestController
-@CrossOrigin(origins = "*")
 @RequestMapping("/api/v1/auth")
 @RequiredArgsConstructor
 public class AuthController {
@@ -26,11 +25,12 @@ public class AuthController {
 
     @PostMapping("/login")
     public ResponseEntity<AuthResponseDto> authenticate(@RequestBody AuthRequestDto request) {
+
         return ResponseEntity.ok(service.authenticate(request));
     }
 
     @PostMapping("/refresh-token")
-    public void refreshToken(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        service.refreshToken(request, response);
+    public ResponseEntity<AuthResponseDto> refreshToken(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        return ResponseEntity.ok(service.refreshToken(request, response));
     }
 }
