@@ -14,4 +14,6 @@ public interface DocumentRepository extends JpaRepository<Document, Long> {
 
     List<Document> findByTag(DocumentTag tag);
 
+    List<Document> findByNameContainsIgnoreCaseAndUser(String name, User user);
+
 }

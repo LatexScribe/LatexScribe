@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Optional;
 
 public interface IDocumentService {
-    List<Document> findByUser(User user);
+    List<Document> findByUser();
 
     Optional<Document> findById(Long id);
 
@@ -18,5 +18,7 @@ public interface IDocumentService {
     void save(DocumentDto document);
 
     List<Document> findByTag(DocumentTag tag);
+
+    List<Document> findByName(String name);
 
 }

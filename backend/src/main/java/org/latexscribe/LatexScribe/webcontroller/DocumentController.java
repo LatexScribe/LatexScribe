@@ -7,6 +7,7 @@ import org.latexscribe.LatexScribe.domain.model.DocumentTag;
 import org.latexscribe.LatexScribe.service.IDocumentService;
 import org.latexscribe.LatexScribe.service.ITagService;
 import org.springframework.http.HttpStatus;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -20,6 +21,14 @@ import java.util.Optional;
 public class DocumentController {
     final private IDocumentService documentService;
     final private ITagService tagService;
+
+    @GetMapping
+    public List<Document> getUserDocuments(@RequestParam(required = false) String name) {
+        if (StringUtils.isEmpty(name)) {
+            return documentService.findByUser();
+        }
+        return documentService.findByName(name);
+    }
 
     @GetMapping("/{id}")
     public @ResponseBody Document getById(@PathVariable("id") Long id) {
@@ -52,5 +61,4 @@ public class DocumentController {
         }
         return documentService.findByTag(tag.get());
     }
-
 }
