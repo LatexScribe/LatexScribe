@@ -53,6 +53,13 @@ public class DocumentServiceImpl implements IDocumentService {
         if (documentDto == null) {
             throw new IllegalArgumentException("provided document must not be null");
         }
+
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+        User user = userService.findByUsername(username).orElseThrow(() -> new UsernameNotFoundException(username));
+        if (user == null) {
+            throw new IllegalArgumentException("provided user is null");
+        }
+
         Document document = new Document();
         document.setName(documentDto.name());
         document.setSize(documentDto.size());
@@ -60,6 +67,7 @@ public class DocumentServiceImpl implements IDocumentService {
         document.setContent(documentDto.content());
         document.setTemplate(documentDto.template());
         document.setTag(documentDto.tag());
+        document.setUser(user);
         documentRepository.saveAndFlush(document);
     }
 
