@@ -15,7 +15,7 @@ public interface IDocumentService {
 
     void deleteById(Long id);
 
-    void save(DocumentDto document);
+    Document save(DocumentDto document);
 
     List<Document> findByTag(DocumentTag tag);
 

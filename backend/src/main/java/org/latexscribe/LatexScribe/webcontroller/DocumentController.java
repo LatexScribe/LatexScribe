@@ -42,9 +42,9 @@ public class DocumentController {
     }
 
     @PostMapping
-    public HttpStatus createDocument(@RequestBody DocumentDto documentDto) {
-        documentService.save(documentDto);
-        return HttpStatus.OK;
+    public @ResponseBody Long createDocument(@RequestBody DocumentDto documentDto) {
+        var document = documentService.save(documentDto);
+        return document.getId();
     }
 
     @DeleteMapping("/{id}")
