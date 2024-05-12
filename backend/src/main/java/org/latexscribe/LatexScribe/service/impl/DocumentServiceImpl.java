@@ -51,7 +51,7 @@ public class DocumentServiceImpl implements IDocumentService {
     }
 
     @Override
-    public void save(DocumentDto documentDto) {
+    public Document save(DocumentDto documentDto) {
         if (documentDto == null) {
             throw new IllegalArgumentException("provided document must not be null");
         }
@@ -70,7 +70,7 @@ public class DocumentServiceImpl implements IDocumentService {
         document.setTemplate(documentDto.template());
         document.setTag(documentDto.tag());
         document.setUser(user);
-        documentRepository.saveAndFlush(document);
+        return documentRepository.saveAndFlush(document);
     }
 
     @Override
