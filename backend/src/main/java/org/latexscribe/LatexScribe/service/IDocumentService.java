@@ -21,4 +21,5 @@ public interface IDocumentService {
 
     List<Document> findByName(String name);
 
+    Document update(Long id, DocumentDto documentDto);
 }

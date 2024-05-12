@@ -8,9 +8,11 @@ import org.latexscribe.LatexScribe.domain.model.User;
 import org.latexscribe.LatexScribe.repository.DocumentRepository;
 import org.latexscribe.LatexScribe.service.IDocumentService;
 import org.latexscribe.LatexScribe.service.IUserService;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 import java.util.Optional;
@@ -81,5 +83,23 @@ public class DocumentServiceImpl implements IDocumentService {
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
         User user = userService.findByUsername(username).orElseThrow(() -> new UsernameNotFoundException(username));
         return documentRepository.findByNameContainsIgnoreCaseAndUser(name, user);
+    }
+
+    @Override
+    public Document update(Long id, DocumentDto documentDto) {
+        Optional<Document> document = this.findById(id);
+        if (document.isEmpty()) {
+            throw new ResponseStatusException(
+                    HttpStatus.NOT_FOUND, "document not found"
+            );
+        }
+        document.get().setContent(documentDto.content());
+        document.get().setName(documentDto.name());
+        document.get().setTag(documentDto.tag());
+        document.get().setTemplate(documentDto.template());
+        document.get().setSize((long)documentDto.content().length);
+        document.get().setLastModified(documentDto.lastModified());
+
+        return documentRepository.saveAndFlush(document.get());
     }
 }
