@@ -53,6 +53,12 @@ public class DocumentController {
         return HttpStatus.OK;
     }
 
+    @PutMapping("/{id}")
+    public HttpStatus putDocument(@PathVariable("id") Long id, @RequestBody DocumentDto documentDto) {
+        documentService.update(id, documentDto);
+        return HttpStatus.OK;
+    }
+
     @GetMapping("/tags/{name}")
     public List<Document> getByTagName(@PathVariable("name") String name) {
         Optional<DocumentTag> tag = tagService.findByName(name);
