@@ -1,0 +1,47 @@
+html{
+    font-family: Arial, Helvetica, sans-serif;
+  }
+  .form-group{
+    position: relative;
+    padding: 1px;
+    border:1px solid;
+    width: 30%;
+    margin: 5% 35% 5% 35%;
+    border-radius: 7px;
+    font-size: 20px;
+    color: grey;
+  }
+  .form-group>label{
+    position: absolute;
+    top:-16px;
+    left:10px;
+    background-color:white;
+    padding: 5px;
+  }
+  
+  .form-group>input{
+    border:none;
+  }
+  h1{
+    text-align: center;
+    padding-top: 3%;
+    font-size: 50px;
+  }
+  #signup{
+    color: white;
+    background-color:dodgerblue;
+    border-radius: 7px;
+    padding: 12px;
+    width: 30%;
+    margin: 0% 35% 5% 35%;
+    border:none;
+  }
+  p{
+    text-align: center;
+    margin: 0% 35% 5% 35%;
+  }
+  img{
+    position: absolute;
+    z-index: -1;
+  }
+  
