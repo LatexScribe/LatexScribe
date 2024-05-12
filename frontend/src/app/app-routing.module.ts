@@ -16,9 +16,10 @@ const routes: Routes = [
   {path:'',component:LandingPageComponent},
   {path:'mainpage',component:MainPageComponent},
   {path:'project',component:ProjectPageComponent},
-  {path:'selectedtemplate',component:SelectedTemplatePageComponent},
+  {path:"selectedtemplate/:id",component:SelectedTemplatePageComponent},
   {path:'templates/categories', component:TemplatesCategoriesPageComponent},
   {path:'templates', component:TemplatesPageComponent},
+
 ];
 
 @NgModule({

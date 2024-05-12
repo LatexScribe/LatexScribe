@@ -24,6 +24,7 @@ import { ProjectPageComponent } from './components/project-page/project-page.com
     TemplatesCategoriesPageComponent,
     SelectedTemplatePageComponent,
     ProjectPageComponent,
+   
   ],
   imports: [
     BrowserModule,

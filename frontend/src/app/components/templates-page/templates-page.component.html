@@ -1,1 +1,22 @@
-<p>templates-page works!</p>
+
+<div *ngFor="let cat of template_categories" class="m-5">
+  <div *ngIf="filterTemplatesByCategoryImitationFunc(cat)" >
+    <h6>{{cat}}</h6>
+
+    
+    <div *ngFor="let tmp of filterTemplatesByCategoryImitationFunc(cat)">
+
+        <div class="card" style="width: 18rem;" >
+            <img class="card-img-top img-thumbnail"  src="https://ssl.gstatic.com/docs/templates/thumbnails/1wyFqxsRmKm9q--7j4WRmBMn694YdhV6hmNrfh4rVm2E_400.png" alt="Card image cap">
+            <div class="card-body">
+              <h5 class="card-title">{{tmp.name}}</h5>
+              <!-- <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p> -->
+              <button class="btn btn-outline-primary " style="margin-right:5px;margin-left: 0px;"  [routerLink]="['/selectedtemplate',tmp.id]">Show Details</button>
+            </div>
+          </div>
+
+        <!-- <p>{{tmp.content}}</p> -->
+    </div>
+</div>
+</div>
+<button (click)="getTemplates()" class="btn btn-primary">Get templates</button>

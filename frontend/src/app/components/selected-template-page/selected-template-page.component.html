@@ -1,1 +1,27 @@
-<p>selected-template-page works!</p>
+<!-- <p>selected-template-page works!</p> -->
+
+<div class="m-5">
+
+    <h2 class="mb-5">{{selectedTemplate?.name}}</h2>
+    <div class="row">
+        <div class="col-3">
+            <h5>Template category:</h5>
+        </div>
+        <div class="col-3">
+            <h5>{{selectedTemplate?.templateCategory}}</h5>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-3">
+            <h5>Template size:</h5>
+        </div>
+        <div class="col-3">
+            <h5>{{selectedTemplate?.size}}</h5>
+        </div>
+    </div>
+
+    <button class="btn btn-outline-primary mt-5" role="button" style='width:80px' (click)='onBack()'>
+        <i class='fa fa-chevron-left'></i>Back
+    </button>
+</div>
+
