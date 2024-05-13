@@ -28,8 +28,9 @@ public class SecurityConfig {
 
     private static final String[] WHITE_LIST_URL = {
             // Authorization end points are available to everyone.
-            "/api/v1/auth/**"
-            // TODO: Add public templates API here.
+            "/api/v1/auth/**",
+            "/api/v1/templates/**",
+            "public/**",
     };
     private final JwtAuthenticationFilter jwtAuthFilter;
     private final AuthenticationProvider authenticationProvider;
