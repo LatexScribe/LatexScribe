@@ -19,7 +19,7 @@ export class SelectedTemplatePageComponent implements OnInit{
 
 ngOnInit(): void {
 
-  this.selectedTemplate=new Template("123","Book template",15,"This is the content","BOOK","45USER4");
+  this.selectedTemplate=new Template("123","Jakes_Resume",15,"This is the content","RESUME","45USER4");
   // const id = Number(this.route.snapshot.paramMap.get('id'));
   // if (id) {
   //  this.service.getTemplate(id).then(item=>this.selectedTemplate=item);
@@ -28,6 +28,11 @@ ngOnInit(): void {
 
 onBack(): void {
   this.router.navigate(['/templates']);
+}
+openPdf(){
+  const url=`http://localhost:8080/public/templates/${this.selectedTemplate?.templateCategory}/${this.selectedTemplate?.name}/source.pdf`;//"http://localhost:8080/public/templates/RESUME/Jakes_Resume/image.jpg"; //"http://localhost:4200/public/templates/RESUME/Jakes_Resume/source.pdf"
+  console.log("yes")
+  window.open(url);
 }
 
 

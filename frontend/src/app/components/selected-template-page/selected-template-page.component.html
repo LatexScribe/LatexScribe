@@ -1,27 +1,45 @@
-<!-- <p>selected-template-page works!</p> -->
 
-<div class="m-5">
 
-    <h2 class="mb-5">{{selectedTemplate?.name}}</h2>
-    <div class="row">
-        <div class="col-3">
-            <h5>Template category:</h5>
-        </div>
-        <div class="col-3">
-            <h5>{{selectedTemplate?.templateCategory}}</h5>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-3">
-            <h5>Template size:</h5>
-        </div>
-        <div class="col-3">
-            <h5>{{selectedTemplate?.size}}</h5>
-        </div>
+<div class="m-5 row">
+
+    <div class="col-6 ">
+
+    <h1 class="mb-3 ">{{selectedTemplate?.name}}</h1>
+    <div class="row w-75 mb-3">
+        <button class="btn  btn-light w-25 me-2 border-dark rounded-pill" (click)='openPdf()'>View pdf</button>
+        <button class="btn btn-sm  w-25 btn-success border-dark rounded-pill  ">Open as template</button>
     </div>
 
-    <button class="btn btn-outline-primary mt-5" role="button" style='width:80px' (click)='onBack()'>
-        <i class='fa fa-chevron-left'></i>Back
+
+    <div class="row ">
+        <div class="col-3 ">
+            <strong style="font-size: 17px;">Template category:</strong>
+        </div>
+        <div class="col-3  ">
+            <p style="font-size: 17px;">{{selectedTemplate?.templateCategory}}</p>
+        </div>
+    </div>
+    <div class="row ">
+        <div class="col-3 ">
+            <strong style="font-size: 17px;">Template size:</strong>
+        </div>
+        <div class="col-3 ">
+            <p style="font-size: 17px;" >{{selectedTemplate?.size}}</p>
+        </div>
+    </div>
+
+
+<div class="row mt-5">
+    <button class="btn btn-outline-success mt-5 w-25 " role="button"  (click)='onBack()'>
+        <i class='fa fa-chevron-left'></i>Find more templates
     </button>
+</div>
+
+
+</div>
+
+<div class="col-6 text-center   ">
+    <img class="img-fluid border"  src="http://localhost:8080/public/templates/{{selectedTemplate?.templateCategory}}/{{selectedTemplate?.name}}/image.jpg" alt="Card image cap">
+</div>
 </div>
 

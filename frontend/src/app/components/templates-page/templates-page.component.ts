@@ -22,7 +22,9 @@ export class TemplatesPageComponent implements OnInit{
 
 
   filterTemplatesByCategoryImitationFunc(cat:string): any{
-    return  [new Template("123","Book template",15,"This is the content","BOOK","45USER4")];
+    return  [new Template("123","Jakes_Resume",15,"This is the content","RESUME","45USER4"),
+    new Template("123","Jakes_Resume",15,"This is the content","RESUME","45USER4")
+    ];
   }
 
   filterTemplatesByCategory(cat:string){
