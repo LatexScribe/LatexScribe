@@ -1,6 +1,17 @@
+import { AuthenticationService } from './../../service/authentication/authentication.service';
+//stage
+// 2.stash
+//3. checkout to main
+//4. git pull
+//5.checkout to branch
+//6.git rebase with main
+//git pop
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { AuthenticationService } from '../../service/authentication/authentication.service';
+import axios from 'axios';
+import { userInfo } from 'os';
+import { User } from '../../models/user.model';
+
 
 
 @Component({
