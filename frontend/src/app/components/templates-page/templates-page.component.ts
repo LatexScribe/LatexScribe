@@ -1,9 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import axios from 'axios';
-import { AuthenticationService } from '../../service/authentication/authentication.service';
 import { DocumentsService } from '../../service/documents/documents.service';
 import { Template } from '../../models/template.model';
-
+import axios from 'axios';
+import { AuthenticationService } from '../../service/authentication/authentication.service';
 @Component({
   selector: 'app-templates-page',
   templateUrl: './templates-page.component.html',
@@ -12,38 +11,27 @@ import { Template } from '../../models/template.model';
 export class TemplatesPageComponent implements OnInit{
 
   template_categories=["ACADEMIC_JOURNAL", "BIBLIOGRAPHY","BOOK","CALENDER","RESUME","FORMAL_LETTER","HOMEWORK_ASSIGNMENT","NEWSLETTER","POSTER", "PRESENTATION","PROJECT", "THESIS"]
-  templates: Promise<Template[]> | undefined;
+  templates: Template[] =[];
 
-  constructor(private service: DocumentsService) {  }
-  
+  constructor(private service: DocumentsService,private authservice: AuthenticationService ) {  }
+
   ngOnInit(): void {
-    this.templates=this.service.getTemplates();
+    this.service.getTemplates().then((templates: Template[]) => {
+      this.templates = templates;
+    });
   }
 
 
-  filterTemplatesByCategoryImitationFunc(cat:string): any{
-    return  [new Template("123","Jakes_Resume",15,"This is the content","RESUME","45USER4"),
-    new Template("123","Jakes_Resume",15,"This is the content","RESUME","45USER4")
-    ];
-  }
-
-  filterTemplatesByCategory(cat:string){
-   let  result=[];
-    this.templates?.then(arr=>{
-      for(var item of arr){
-        if(item.templateCategory==cat)
-          result.push(item);
+   filterTemplatesByCategory(cat:string){
+    let res: Template[]=[];
+    for(var i=0;i<this.templates.length;i++){
+      console.log(cat)
+      console.log(this.templates[i].category)
+      if(this.templates[i].category==cat){
+        res.push(this.templates[i]);
       }
-
-      if(result.length==0)return null;
-      else
-          return result;
-    })
+    }
+    return res;
   }
-
-   async getTemplates(): Promise<Template[]> {
-   return this.service.getTemplatesByCategory("BOOK");
-  }
-
 
 }

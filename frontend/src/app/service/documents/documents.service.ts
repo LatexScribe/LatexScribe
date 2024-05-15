@@ -21,7 +21,15 @@ export class DocumentsService {
       },
     });
 
-    return new Template(response.data.id,response.data.name,response.data.size,response.data.content,response.data.templateCategory,response.data.userId);
+    return new Template(response.data.id,
+      response.data.name,
+      response.data.size,
+      response.data.content,
+      response.data.category,
+      response.data.codeName,
+      response.data.author,
+      response.data.description,
+      response.data.license);
 
   }
 
@@ -38,7 +46,7 @@ export class DocumentsService {
 
     const dataArray: Template[] = response.data.map((item: any) => {
       // Assuming response data has id, name, and content properties
-      return new Template(item.id, item.name, item.size, item.content,item.templateCategory,item.userId);
+      return new Template(item.id, item.name, item.size, item.content,item.category,item.codeName,item.author,item.description, item.license);
     });
 
      return dataArray;
@@ -59,7 +67,7 @@ export class DocumentsService {
 
      const dataArray: Template[] = response.data.map((item: any) => {
       // Assuming response data has id, name, and content properties
-      return new Template(item.id, item.name, item.size, item.content,item.templateCategory,item.userId);
+      return new Template(item.id, item.name, item.size, item.content,item.category,item.codeName,item.author,item.description, item.license);
     });
 
      return dataArray;

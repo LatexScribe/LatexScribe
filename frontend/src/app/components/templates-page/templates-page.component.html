@@ -1,22 +1,23 @@
 
 <div *ngFor="let cat of template_categories" class="m-5">
-  <div *ngIf="filterTemplatesByCategoryImitationFunc(cat)" >
+  <div *ngIf="filterTemplatesByCategory(cat).length!=0" >
     <h6>{{cat}}</h6>
 
     
     <div class="row" >
 
-        <div class="card col-2 me-5" style="width: 18rem;" *ngFor="let tmp of filterTemplatesByCategoryImitationFunc(cat)" >
-            <img class="card-img-top img-thumbnail"  src="http://localhost:8080/public/templates/{{tmp.templateCategory}}/{{tmp.name}}/image.jpg" alt="Card image cap">
-            <div class="card-body">
-              <h5 class="card-title">{{tmp.name}}</h5>
-              <!-- <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p> -->
-              <button class="btn btn-outline-success " style="margin-right:5px;margin-left: 0px;"  [routerLink]="['/selectedtemplate',tmp.id]">Show Details</button>
+        <div class="card col-2 me-5" style="width: 18rem;" *ngFor="let tmp of filterTemplatesByCategory(cat)" >
+            <img class="card-img-top img-thumbnail"  src="http://localhost:8080/public/templates/{{tmp.codeName}}/image.jpg" alt="Card image cap">
+            <div class="card-body text-center">
+
+              <a  class=" " style="margin-right:5px;margin-left: 0px; color: green;"  [routerLink]="['/selectedtemplate',tmp.id]" >{{tmp.name}}</a>
+             
             </div>
           </div>
 
-        <!-- <p>{{tmp.content}}</p> -->
+
     </div>
 </div>
 </div>
-<button (click)="getTemplates()" class="btn btn-primary">Get templates</button>
+
+

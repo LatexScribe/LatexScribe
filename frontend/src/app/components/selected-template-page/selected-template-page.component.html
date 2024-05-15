@@ -11,14 +11,46 @@
     </div>
 
 
+    
+    <div class="row ">
+        <div class="col-3 ">
+            <strong style="font-size: 17px;">Author:</strong>
+        </div>
+        <div class="col-3  ">
+            <p style="font-size: 17px;">{{selectedTemplate?.author}}</p>
+        </div>
+    </div>
+
+
     <div class="row ">
         <div class="col-3 ">
             <strong style="font-size: 17px;">Template category:</strong>
         </div>
         <div class="col-3  ">
-            <p style="font-size: 17px;">{{selectedTemplate?.templateCategory}}</p>
+            <p style="font-size: 17px;">{{selectedTemplate?.category}}</p>
         </div>
     </div>
+
+
+    
+    <div class="row ">
+        <div class="col-3 ">
+            <strong style="font-size: 17px;">Abstract:</strong>
+        </div>
+        <div class="col-3  ">
+            <p style="font-size: 17px;">{{selectedTemplate?.description}}</p>
+        </div>
+    </div>
+
+    <div class="row ">
+        <div class="col-3 ">
+            <strong style="font-size: 17px;">License:</strong>
+        </div>
+        <div class="col-3  ">
+            <p style="font-size: 17px;">{{selectedTemplate?.license}}</p>
+        </div>
+    </div>
+
     <div class="row ">
         <div class="col-3 ">
             <strong style="font-size: 17px;">Template size:</strong>
@@ -39,7 +71,7 @@
 </div>
 
 <div class="col-6 text-center   ">
-    <img class="img-fluid border"  src="http://localhost:8080/public/templates/{{selectedTemplate?.templateCategory}}/{{selectedTemplate?.name}}/image.jpg" alt="Card image cap">
+    <img class="img-fluid border"  src="http://localhost:8080/public/templates/{{selectedTemplate?.codeName}}/image.jpg" alt="Card image cap">
 </div>
 </div>
 
