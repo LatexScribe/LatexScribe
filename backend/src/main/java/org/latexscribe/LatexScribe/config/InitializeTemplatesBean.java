@@ -16,6 +16,7 @@ import java.io.InputStream;
 import java.net.URISyntaxException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -63,7 +64,7 @@ public class InitializeTemplatesBean {
             for (var template : category.templates) {
                 var url = this.getClass().getClassLoader().getResource(String.format("public/templates/%s/%s/source.tex", category_name, template.path));
                 assert url != null;
-                var content = Files.readAllBytes(Path.of(url.getPath()));
+                var content = Files.readAllBytes(Paths.get(url.toURI()));
 
                 repository.save(
                     DocumentTemplate
