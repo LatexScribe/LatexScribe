@@ -3,6 +3,13 @@
     "RESUME": {
       "templates": [
         {
+          "author": "John Doe",
+          "description": "John Doe Resume",
+          "license": "MIT",
+          "name": "John Doe Resume",
+          "path": "John_Resume"
+        },
+        {
           "author": "Jack Ryan",
           "description": "Jack's Resume",
           "license": "MIT",
