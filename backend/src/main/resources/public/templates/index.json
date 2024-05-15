@@ -1,11 +1,15 @@
 {
-  "RESUME": [
-    {
-      "author": "Jack Ryan",
-      "description": "Jack's Resume",
-      "license": "MIT",
-      "name": "Jack's Resume",
-      "path": "Jakes_Resume"
+  "categories": {
+    "RESUME": {
+      "templates": [
+        {
+          "author": "Jack Ryan",
+          "description": "Jack's Resume",
+          "license": "MIT",
+          "name": "Jack's Resume",
+          "path": "Jakes_Resume"
+        }
+      ]
     }
-  ]
+  }
 }
