@@ -10,8 +10,5 @@ import java.util.List;
 
 @Repository
 public interface TemplateRepository extends JpaRepository<DocumentTemplate, Long> {
-    List<DocumentTemplate> findByUser(User user);
-
     List<DocumentTemplate> findByCategory(TemplateCategory category);
-
 }

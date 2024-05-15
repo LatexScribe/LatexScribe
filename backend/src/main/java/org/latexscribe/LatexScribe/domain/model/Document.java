@@ -30,7 +30,7 @@ public class Document {
     @JsonProperty
     private LocalDateTime lastModified;
 
-    @Column(name = "content")
+    @Column(length = 100000000)
     @JsonProperty
     private byte[] content;
 
