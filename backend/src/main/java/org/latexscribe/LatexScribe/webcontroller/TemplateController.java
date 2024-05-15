@@ -1,7 +1,6 @@
 package org.latexscribe.LatexScribe.webcontroller;
 
 import lombok.RequiredArgsConstructor;
-import org.latexscribe.LatexScribe.domain.dto.TemplateDto;
 import org.latexscribe.LatexScribe.domain.enums.TemplateCategory;
 import org.latexscribe.LatexScribe.domain.model.DocumentTemplate;
 import org.latexscribe.LatexScribe.domain.model.User;
@@ -42,24 +41,5 @@ public class TemplateController {
             );
         }
         return template.get();
-    }
-
-    @PostMapping
-    public HttpStatus create(@RequestBody TemplateDto templateDto) {
-        templateService.create(templateDto);
-        return HttpStatus.OK;
-    }
-
-
-    @PutMapping("/{id}")
-    public HttpStatus update(@PathVariable Long id, @RequestBody TemplateDto templateDto) {
-        templateService.update(id, templateDto);
-        return HttpStatus.OK;
-    }
-
-    @DeleteMapping("/{id}")
-    public HttpStatus delete(@PathVariable Long id) {
-        templateService.delete(id);
-        return HttpStatus.OK;
     }
 }
