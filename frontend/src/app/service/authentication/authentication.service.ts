@@ -72,10 +72,7 @@ this.currentUser.refreshToken=response.data.refreshToken;
   headers: {
     Authorization: `Bearer ${this.currentUser.accessToken}`,
   },
-  data:{}
-}
-
-);
+  data:{} });
 
 this.currentUser=new User("","","","",null,null);
 this.authenticationChanged.next("");
@@ -86,4 +83,10 @@ this.authenticationChanged.next("");
   onAuthenticationChanged() {
     return this.authenticationChanged.asObservable();
   }
+
+  getCurrentUserAcessToken(){
+    return this.currentUser.accessToken;
+  }
+
+
 }

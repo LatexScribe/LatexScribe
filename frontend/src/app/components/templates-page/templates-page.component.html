@@ -1,1 +1,23 @@
-<p>templates-page works!</p>
+
+<div *ngFor="let cat of template_categories" class="m-5">
+  <div *ngIf="filterTemplatesByCategory(cat).length!=0" >
+    <h6>{{cat}}</h6>
+
+    
+    <div class="row" >
+
+        <div class="card col-2 me-5" style="width: 18rem;" *ngFor="let tmp of filterTemplatesByCategory(cat)" >
+            <img class="card-img-top img-thumbnail"  src="http://localhost:8080/public/templates/{{tmp.codeName}}/image.jpg" alt="Card image cap">
+            <div class="card-body text-center">
+
+              <a  class=" " style="margin-right:5px;margin-left: 0px; color: green;"  [routerLink]="['/selectedtemplate',tmp.id]" >{{tmp.name}}</a>
+             
+            </div>
+          </div>
+
+
+    </div>
+</div>
+</div>
+
+
