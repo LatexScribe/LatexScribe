@@ -22,4 +22,6 @@ public interface IDocumentService {
     List<Document> findByName(String name);
 
     Document update(Long id, DocumentDto documentDto);
+
+    Document createDocumentFromTemplate(Long templateId);
 }
