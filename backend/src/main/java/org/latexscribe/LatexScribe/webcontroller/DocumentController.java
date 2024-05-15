@@ -41,6 +41,12 @@ public class DocumentController {
         return document.get();
     }
 
+    @PostMapping("/template/{id}")
+    public @ResponseBody Long createDocumentFromDocument(@PathVariable("id") Long id) {
+        var document = documentService.createDocumentFromTemplate(id);
+        return document.getId();
+    }
+
     @PostMapping
     public @ResponseBody Long createDocument(@RequestBody DocumentDto documentDto) {
         var document = documentService.save(documentDto);

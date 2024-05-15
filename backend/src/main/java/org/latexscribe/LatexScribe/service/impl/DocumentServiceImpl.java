@@ -1,12 +1,15 @@
 package org.latexscribe.LatexScribe.service.impl;
 
 import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.latexscribe.LatexScribe.domain.dto.DocumentDto;
 import org.latexscribe.LatexScribe.domain.model.Document;
 import org.latexscribe.LatexScribe.domain.model.DocumentTag;
 import org.latexscribe.LatexScribe.domain.model.User;
 import org.latexscribe.LatexScribe.repository.DocumentRepository;
+import org.latexscribe.LatexScribe.repository.TemplateRepository;
 import org.latexscribe.LatexScribe.service.IDocumentService;
+import org.latexscribe.LatexScribe.service.ITemplateService;
 import org.latexscribe.LatexScribe.service.IUserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -14,14 +17,18 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class DocumentServiceImpl implements IDocumentService {
     final private DocumentRepository documentRepository;
     final private IUserService userService;
+    final private ITemplateService templateService;
 
     @Override
     public List<Document> findByUser() {
@@ -101,5 +108,28 @@ public class DocumentServiceImpl implements IDocumentService {
         document.get().setLastModified(documentDto.lastModified());
 
         return documentRepository.saveAndFlush(document.get());
+    }
+
+    @Override
+    public Document createDocumentFromTemplate(Long templateId) {
+        var template = templateService.findById(templateId).orElseThrow(NoSuchElementException::new);
+
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+        User user = userService.findByUsername(username).orElseThrow(() -> new UsernameNotFoundException(username));
+        if (user == null) {
+            throw new IllegalArgumentException("provided user is null");
+        }
+
+        var document = Document
+                .builder()
+                .name(template.getName())
+                .content(template.getContent())
+                .size(template.getSize())
+                .template(template)
+                .lastModified(LocalDateTime.now())
+                .user(user)
+                .build();
+
+        return documentRepository.saveAndFlush(document);
     }
 }
