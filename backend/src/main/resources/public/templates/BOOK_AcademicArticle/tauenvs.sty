@@ -1,0 +1,119 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% --------------------------------------------------------
+% Tauenvs
+% LaTeX Package
+% Version 1.1.0 (14/05/2024)
+%
+% Author: 
+% Guillermo Jimenez (memo.notess1@gmail.com)
+% --------------------------------------------------------
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% --------------------------------------------------------
+%                        WARNING!
+% --------------------------------------------------------
+% Do not remove this package from the 'main.tex' to 
+% avoid compilation problems. This package defines the 
+% included environments and colors.
+% --------------------------------------------------------
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%----------------------------------------------------------
+% PACKAGE CONFIGURATION
+%----------------------------------------------------------
+
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{tauenvs}[2024/05/14]
+
+%----------------------------------------------------------
+% COLORS
+%----------------------------------------------------------
+
+\RequirePackage{xcolor}
+\definecolor{taucolor}{rgb}{0.0,0.2,0.4}
+
+%----------------------------------------------------------
+% TAUENV-, INFO-, NOTE- ENVIRONMENTS
+%----------------------------------------------------------
+
+% Tauenv
+\newmdenv[
+    backgroundcolor=taucolor!22, 					
+    linecolor=taucolor,									
+    linewidth=0.7pt,
+    frametitle=\vskip0pt\bfseries,
+    frametitlerule=false,
+    frametitlefont=\color{taucolor}\bfseries\sffamily,
+    frametitlealignment=\raggedright,
+    innertopmargin=3pt,
+    innerbottommargin=6pt,
+    innerleftmargin=6pt,
+    innerrightmargin=6pt,
+    font=\selectfont,
+    fontcolor=taucolor,									
+    frametitleaboveskip=8pt,
+    skipabove=10pt
+]{tauenv}
+
+%----------------------------------------------------------
+
+% Information/Informaci\'on language setup
+\newcommand{\infolanguage}{
+    \iflanguage{spanish}{
+        {\bfseries\noindent Informaci\'on}%
+    }{%
+        {\bfseries\noindent Information}    % Modify if required in another language
+    }%
+}
+
+% Info
+\newmdenv[
+    backgroundcolor=taucolor!22, 						
+    linecolor=taucolor,									
+    linewidth=0.7pt,
+    frametitle=\vskip0pt\bfseries\infolanguage,
+    frametitlerule=false,
+    frametitlefont=\color{taucolor}\bfseries\sffamily,
+    frametitlealignment=\raggedright,
+    innertopmargin=3pt,
+    innerbottommargin=6pt,
+    innerleftmargin=6pt,
+    innerrightmargin=6pt,
+    font=\normalfont,
+    fontcolor=taucolor,									
+    frametitleaboveskip=3pt,
+    skipabove=10pt
+]{info}
+
+%----------------------------------------------------------
+
+% Note/Nota language setup
+\newcommand{\notelanguage}{
+    \iflanguage{spanish}{
+        {\bfseries\noindent Nota}%
+    }{%
+        {\bfseries\noindent Note}   % Modify if required in another language
+    }%
+}
+
+% Note
+\newmdenv[
+    backgroundcolor=taucolor!22, 						
+    linecolor=taucolor,									
+    linewidth=0.7pt,
+    frametitle=\vskip0pt\bfseries\notelanguage,
+    frametitlerule=false,
+    frametitlefont=\color{taucolor}\bfseries\sffamily,
+    frametitlealignment=\raggedright,
+    innertopmargin=3pt,
+    innerbottommargin=6pt,
+    innerleftmargin=6pt,
+    innerrightmargin=6pt,
+    font=\normalfont,
+    fontcolor=taucolor,									
+    frametitleaboveskip=3pt,
+    skipabove=10pt
+]{note}
+
+%----------------------------------------------------------
+
+\endinput
