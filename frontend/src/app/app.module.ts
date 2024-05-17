@@ -13,6 +13,9 @@ import { TemplatesCategoriesPageComponent } from './components/templates-categor
 import { SelectedTemplatePageComponent } from './components/selected-template-page/selected-template-page.component';
 import { ProjectPageComponent } from './components/project-page/project-page.component';
 import { LatexParagraphComponent } from './components/latex-paragraph/latex-paragraph.component';
+import { LatexEditorComponent } from './components/latex-editor/latex-editor.component';
+import { CodemirrorModule } from '@ctrl/ngx-codemirror';
+
 
 @NgModule({
   declarations: [
@@ -26,11 +29,13 @@ import { LatexParagraphComponent } from './components/latex-paragraph/latex-para
     SelectedTemplatePageComponent,
     ProjectPageComponent,
     LatexParagraphComponent,
+    LatexEditorComponent,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     ReactiveFormsModule,
+    CodemirrorModule
 
   ],
   providers: [

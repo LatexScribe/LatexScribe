@@ -79,7 +79,6 @@ this.authenticationChanged.next("");
 
   }
 
-
   onAuthenticationChanged() {
     return this.authenticationChanged.asObservable();
   }
@@ -87,6 +86,4 @@ this.authenticationChanged.next("");
   getCurrentUserAcessToken(){
     return this.currentUser.accessToken;
   }
-
-
 }

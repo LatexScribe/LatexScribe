@@ -54,8 +54,6 @@ export class DocumentsService {
   }
 
   async getTemplatesByCategory(category:string){
-    
- 
      let response= await this.api.request({
        method: "get",
        url: `api/v1/templates?category=${category}`,
@@ -72,5 +70,26 @@ export class DocumentsService {
 
      return dataArray;
    }
+
+   async createDocument(name:string,size:any,lastModified:string,content:string,template:any,tag:any){
+
+    const api = axios.create({ baseURL: "http://localhost:8080/" });
+    await api.request({
+      method: "post",
+      url: "api/v1/documents",
+   data:   {
+        "name": name,
+        "size": size,
+        "lastModified": lastModified,
+        "content": content,
+        "template": template,
+        "tag": tag
+    },
+    headers: {
+      Authorization: `Bearer ${this.service.getCurrentUserAcessToken()}`,
+    },
+    });
+  }
+
   
 }

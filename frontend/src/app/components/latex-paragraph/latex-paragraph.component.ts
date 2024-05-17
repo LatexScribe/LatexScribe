@@ -1,5 +1,5 @@
 
-import {Component, Input} from '@angular/core';
+import {Component, Input, OnChanges, SimpleChanges} from '@angular/core';
 import {DomSanitizer, SafeHtml} from "@angular/platform-browser";
 import { extractMath } from 'extract-math'
 import { MathJaxService } from '../../service/math-jax/math-jax.service';
@@ -10,7 +10,7 @@ import { MathJaxService } from '../../service/math-jax/math-jax.service';
   templateUrl: './latex-paragraph.component.html',
   styleUrl: './latex-paragraph.component.css'
 })
-export class LatexParagraphComponent {
+export class LatexParagraphComponent implements OnChanges{
   @Input({ required: true }) inputString!: string;
 
   _html: any = [];
@@ -18,15 +18,25 @@ export class LatexParagraphComponent {
 
   constructor(private domSanitizer: DomSanitizer, private latexService: MathJaxService) {}
 
+
+  ngOnChanges(changes: SimpleChanges): void {
+   this.makeChanges();
+  }
+
   ngOnInit() {
-    // Break the string into segments ('text', 'inline', and 'display')
-    const segments = extractMath(this.inputString, {
+   this.makeChanges();
+  }
+
+  makeChanges(){
+     // Break the string into segments ('text', 'inline', and 'display')
+     const segments = extractMath(this.inputString, {
       delimiters: {
         inline: ['$', '$'],
         display: ['$$', '$$']
       }
     })
 
+    this._html=[];
     // Parse the LaTeX equation to HTML
     for (let i = 0; i < segments.length; i++) {
       if (segments[i]['type'] == 'text') {
