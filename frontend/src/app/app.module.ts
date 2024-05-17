@@ -12,6 +12,7 @@ import { TemplatesPageComponent } from './components/templates-page/templates-pa
 import { TemplatesCategoriesPageComponent } from './components/templates-categories-page/templates-categories-page.component';
 import { SelectedTemplatePageComponent } from './components/selected-template-page/selected-template-page.component';
 import { ProjectPageComponent } from './components/project-page/project-page.component';
+import { LatexParagraphComponent } from './components/latex-paragraph/latex-paragraph.component';
 
 @NgModule({
   declarations: [
@@ -24,12 +25,13 @@ import { ProjectPageComponent } from './components/project-page/project-page.com
     TemplatesCategoriesPageComponent,
     SelectedTemplatePageComponent,
     ProjectPageComponent,
-   
+    LatexParagraphComponent,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+
   ],
   providers: [
     provideClientHydration()
