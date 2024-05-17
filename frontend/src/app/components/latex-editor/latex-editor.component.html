@@ -4,33 +4,30 @@
   </div>
 </form>
 
-<div>
-    <ngx-codemirror
-      #codemirror
-      [options]="{
-        lineNumbers: true,
-        theme: 'monokai',
-        mode: 'stex',
-        styleActiveLine: true,
-        matchBrackets: true,
-        lineWrapping: true,
-        
-      }"
-
-    ></ngx-codemirror>
-</div>
-
-<app-latex-paragraph #contt [inputString]="content"></app-latex-paragraph>
+<!-- <app-latex-paragraph #contt [inputString]="content"></app-latex-paragraph> -->
 
 <button class="btn btn-primary" (click)="updatePreview()">Run</button>
 <button class="btn btn-primary" (click)="saveDocument()">Save PDF</button>
 
-<div>
-  <button (click)="exampleEncode()">Encode KaTeX String</button>
-</div>
+<div class="row ">
+  <div class="col  border border-shadow ms-1">
+    <div>
+      <ngx-codemirror
+        #codemirror
+        [options]="{
+          lineNumbers: true,
+          theme: 'monokai',
+          mode: 'stex',
+          styleActiveLine: true,
+          matchBrackets: true,
+          lineWrapping: true,
+        }"
+      ></ngx-codemirror>
+  </div>
+  
+  </div>
+  <div class="col  border border-shadow ms-1">
+    <iframe id="preview" ref="preview" sandbox="allow-same-origin allow-scripts" width="100%" height="300px"></iframe>
 
-<div>
-  <button (click)="exampleEncodeDecode()">Encode and Decode KaTeX String</button>
+  </div>
 </div>
-
-<iframe id="preview" ref="preview" sandbox="allow-same-origin allow-scripts"></iframe>

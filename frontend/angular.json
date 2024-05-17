@@ -36,7 +36,9 @@
             ],
             "styles": [
               "src/styles.css",
-              "node_modules/bootstrap/dist/css/bootstrap.min.css"
+              "node_modules/bootstrap/dist/css/bootstrap.min.css",
+              "node_modules/codemirror/lib/codemirror.css",
+              "node_modules/codemirror/theme/monokai.css"
             ],
             "scripts": [],
             "server": "src/main.server.ts",

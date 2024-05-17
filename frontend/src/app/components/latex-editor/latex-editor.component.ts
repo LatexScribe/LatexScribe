@@ -1,4 +1,3 @@
-import katex from 'katex';
 import {
   AfterViewInit,
   Component,
@@ -13,6 +12,7 @@ import { DOCUMENT, isPlatformBrowser } from '@angular/common';
 import { CodemirrorComponent } from '@ctrl/ngx-codemirror';
 import { DocumentsService } from '../../service/documents/documents.service';
 import { FormBuilder, FormGroup } from '@angular/forms';
+import { format } from 'date-fns';
 
 // @ts-ignore
 const generator = new window.latexjs.HtmlGenerator({
@@ -270,16 +270,14 @@ export class LatexEditorComponent implements OnInit, AfterViewInit {
   }
 
   async saveDocument() {
-    // try {
+    try {
     const name = this.formGroup.get('documentName')?.value;
-    const content = console.log(name);
-    //const documentId = await this.documentService.createDocument();
-    //  console.log('Document created successfully. ID:', documentId);
-    //  return documentId;
-    // } catch (error) {
-    //   console.error('Error creating document:', error);
-    //   return null;
-    // }
+    const content = this.exampleEncode();
+    const date = format(new Date(), "yyyy-MM-dd'T'HH:mm:ss");
+    this.documentService.createDocument(name,content.length,date,content,null,null);
+     } catch (error) {
+  console.error('Error creating document:', error);
+     }
   }
 
   encodeToBase64(str: string): string {
@@ -291,18 +289,21 @@ export class LatexEditorComponent implements OnInit, AfterViewInit {
   }
 
   exampleEncode() {
-    const katexString = '$f^2(x)+2f(x)+c$';
-    const encodedString = this.encodeToBase64(katexString);
-    console.log('Encoded String:', encodedString);
+    const latexInput = this.codeMirror.codeMirror?.getValue();
+    let encodedString='';
+    if(latexInput){
+      encodedString = this.encodeToBase64(latexInput);
+    }
+    return encodedString;
   }
 
-  exampleEncodeDecode() {
-    const katexString = 'This document etc etc $f^2(x)+2f(x)+c$ etc';
-    const encodedString = this.encodeToBase64(katexString);
-    console.log('Encoded String:', encodedString);
-
-    const decodedString = this.decodeFromBase64(encodedString);
-    console.log('Decoded String:', decodedString);
+  exampleEncodeDecode(base64encodedString:string) {
+    const latexInput = this.codeMirror.codeMirror?.getValue();
+    let decodedString='';
+    if(latexInput){
+      decodedString = this.decodeFromBase64(base64encodedString);
+    }
+    return decodedString;
   }
 }
 
