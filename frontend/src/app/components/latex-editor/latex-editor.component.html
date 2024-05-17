@@ -22,7 +22,7 @@
 
 <app-latex-paragraph #contt [inputString]="content"></app-latex-paragraph>
 
-<button class="btn btn-primary" (click)="updateContent()">Run</button>
+<button class="btn btn-primary" (click)="updatePreview()">Run</button>
 <button class="btn btn-primary" (click)="saveDocument()">Save PDF</button>
 
 <div>
@@ -32,3 +32,5 @@
 <div>
   <button (click)="exampleEncodeDecode()">Encode and Decode KaTeX String</button>
 </div>
+
+<iframe id="preview" ref="preview" sandbox="allow-same-origin allow-scripts"></iframe>
