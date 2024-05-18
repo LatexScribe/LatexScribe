@@ -6,7 +6,6 @@ import {
   OnInit,
   PLATFORM_ID,
   ViewChild,
-  Input,
 } from '@angular/core';
 import { DOCUMENT, isPlatformBrowser } from '@angular/common';
 import { CodemirrorComponent } from '@ctrl/ngx-codemirror';
@@ -189,6 +188,7 @@ function errorMessage(e, noFinalNewline) {
 })
 export class LatexEditorComponent implements OnInit, AfterViewInit {
   @ViewChild('codemirror') codeMirror!: CodemirrorComponent;
+  
 
   formGroup!: FormGroup;
 
@@ -201,7 +201,12 @@ export class LatexEditorComponent implements OnInit, AfterViewInit {
     @Inject(PLATFORM_ID) private platformId: Object,
     private documentService: DocumentsService,
     private fb: FormBuilder
-  ) {}
+  ) {
+  }
+
+  updatePreviewOnKeyUp(event:any){
+    this.updatePreview();
+  }
 
   ngOnInit(): void {
     this.formGroup = this.fb.group({
@@ -210,15 +215,6 @@ export class LatexEditorComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    // // const katex = require('katex');
-    // var html = katex.renderToString(
-    //   `\begin{abstract}This document will show most of the features of \LaTeX.js while at the same time being a gentle introduction to \LaTeX.\end{abstract}`,
-    //   {
-    //     throwOnError: false,
-    //   }
-    // );
-    // console.log('here it is->');
-    // console.log(html);
     if (typeof window != undefined) {
       if (isPlatformBrowser(this.platformId)) {
         import('codemirror')
@@ -243,21 +239,14 @@ export class LatexEditorComponent implements OnInit, AfterViewInit {
   updatePreview() {
     const latexInput = this.codeMirror.codeMirror?.getValue();
     console.log('Hello:::::', latexInput, window);
-    if (latexInput) {
-      // const previewElement = this.preview.nativeElement;
-      // previewElement.innerHTML = '';
+    
       try {
-        // katex.render(latexInput, previewElement, {
-        //   throwOnError: false,
-        // });
-
         let latexPreview = this.document.getElementById('preview');
         console.log('Updated', latexInput, latexPreview);
         compile(latexInput, latexPreview);
       } catch (error) {
         console.error('Error rendering LaTeX:', error);
       }
-    }
   }
 
   updateContent() {
@@ -312,3 +301,4 @@ export class LatexEditorComponent implements OnInit, AfterViewInit {
 // import { parse, HtmlGenerator, SyntaxError } from 'latex.js'
 // @ts-ignore
 import en from 'hyphenation.en-us';
+
