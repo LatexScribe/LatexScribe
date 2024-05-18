@@ -10,8 +10,6 @@ export class DocumentsService {
   api=axios.create({ baseURL: "http://localhost:8080/"  });
   constructor(private service: AuthenticationService) { }
 
-
-
   async getTemplate(id:number){
     let response= await this.api.request({
       method: "get",
@@ -91,5 +89,123 @@ export class DocumentsService {
     });
   }
 
+  async getDocumentById(id: string) {
+    try {
+      const url = `/api/v1/documents/${id}`;
+      const response = await this.api.request({
+        method: 'get',
+        url: url,
+        headers: {
+          Authorization: `Bearer ${this.service.getCurrentUserAcessToken()}`
+        }
+      });
+  
+      if (response.status === 200) {
+        console.log('Document retrieved successfully:', response.data);
+        return response.data;
+      } else if (response.status === 404) {
+        console.error('Document not found.');
+        return null;
+      } else {
+        console.error('Failed to retrieve document.');
+        return null;
+      }
+    } catch (error) {
+      console.error('Error retrieving document:', error);
+      return null;
+    }
+  }
+
+  async getDocumentByName(name?: string) {
+    try {
+      const url = '/api/v1/documents' + (name ? `?name=${name}` : '');
+      const response = await this.api.request({
+        method: 'get',
+        url: url,
+        headers: {
+          Authorization: `Bearer ${this.service.getCurrentUserAcessToken()}`
+        }
+      });
+  
+      if (response.status === 200) {
+        console.log('Document retrieved successfully:', response.data);
+        return response.data;
+      } else {
+        console.error('Failed to retrieve documents.');
+        return null;
+      }
+    } catch (error) {
+      console.error('Error retrieving documents:', error);
+      return null;
+    }
+  }
+
+  async deleteDocument(id: string){
+    try {
+      const response = await this.api.request({
+        method: 'delete',
+        url: `api/v1/documents/${id}`,
+        headers: {
+          Authorization: `Bearer ${this.service.getCurrentUserAcessToken()}`
+        }
+      });
+  
+      if (response.status === 200) {
+        console.log(`Document with ID ${id} deleted successfully.`);
+      } else {
+        console.error('Failed to delete document.');
+      }
+    } catch (error) {
+      console.error('Error deleting document:', error);
+    }
+  }
+
+  async getDocuments(){
+    let response = await this.api.request({
+      method: 'get',
+      url: 'api/v1/documents',
+      headers: {
+        Authorization: `Bearer ${this.service.getCurrentUserAcessToken()}`,
+        'Content-Type': 'application/json',
+      },
+    });
+    return response;
+  }
+
+  async getTags(){
+    let response = await this.api.request({
+      method: 'get',
+      url: 'api/v1/tags',
+      headers: {
+        Authorization: `Bearer ${this.service.getCurrentUserAcessToken()}`
+      },
+    });
+    return response;
+  }
+
+  async changeDocument(id: string, name: string, size: any, lastModified: string, content: string, template: any, tag: any) {
+    try {
+      const url = `api/v1/documents/${id}`;
+      const response = await this.api.request({
+        method: 'put',
+        url: url,
+        data: {
+          "name": name,
+          "size": size,
+          "lastModified": lastModified,
+          "content": content,
+          "template": template,
+          "tag": tag
+        },
+        headers: {
+          Authorization: `Bearer ${this.service.getCurrentUserAcessToken()}`,
+        },
+      });
+  
+      console.log('Document updated successfully:', response.data);
+    } catch (error) {
+      console.error('Error updating document:', error);
+    }
+  }
   
 }

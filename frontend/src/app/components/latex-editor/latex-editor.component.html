@@ -1,17 +1,47 @@
 <form [formGroup]="formGroup">
-  <div class="input-group border border-dark rounded m-1 w-25">
-    <input type="text" id="document_name" class="form-control" placeholder="Input Project Name" formControlName="documentName">
+  <div class="input-group m-1 w-25">
+    <div *ngIf="isEdit">
+      <input
+        type="text"
+        id="document_name"
+        class="form-control"
+        placeholder="Input Project Name"
+        formControlName="documentName"
+      />
+    </div>
+    <div *ngIf="!isEdit">
+      <p>{{ name }}</p>
+    </div>
+
+    <div class="row">
+      <div *ngIf="!isEdit" class="col">
+        <button
+          mat-icon-button
+          color="primary"
+          aria-hidden="true"
+          (click)="onEdit()"
+        >
+          <mat-icon>edit</mat-icon>
+        </button>
+      </div>
+      <div *ngIf="isEdit" class="col" style="margin: 0; padding: 0">
+        <button mat-icon-button color="primary" (click)="onUpdate()">
+          <mat-icon>done</mat-icon>
+        </button>
+        <button mat-icon-button color="primary" (click)="onCancel()">
+          <mat-icon>cancel</mat-icon>
+        </button>
+      </div>
+    </div>
   </div>
 </form>
 
-<!-- <app-latex-paragraph #contt [inputString]="content"></app-latex-paragraph> -->
+<button class="btn btn-primary m-1" (click)="updatePreview()">Run</button>
+<button class="btn btn-primary m-1" (click)="saveDocument()">Save PDF</button>
 
-<button class="btn btn-primary" (click)="updatePreview()">Run</button>
-<button class="btn btn-primary" (click)="saveDocument()">Save PDF</button>
-
-<div class="row ">
-  <div class="col  border border-shadow ms-1">
-    <div (keyup)="updatePreviewOnKeyUp($event)" >
+<div class="row">
+  <div class="col border border-shadow ms-1">
+    <div (keyup)="updatePreviewOnKeyUp($event)">
       <ngx-codemirror
         #codemirror
         [options]="{
@@ -23,11 +53,15 @@
           lineWrapping: true,
         }"
       ></ngx-codemirror>
+    </div>
   </div>
-  
-  </div>
-  <div class="col  border border-shadow ms-1">
-    <iframe id="preview" ref="preview" sandbox="allow-same-origin allow-scripts" width="100%" height="300px"></iframe>
-
+  <div class="col border border-shadow ms-1">
+    <iframe
+      id="preview"
+      ref="preview"
+      sandbox="allow-same-origin allow-scripts"
+      width="100%"
+      height="300px"
+    ></iframe>
   </div>
 </div>

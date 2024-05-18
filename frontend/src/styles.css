@@ -7,3 +7,5 @@
 @import 'codemirror/theme/yeti.css';
 @import 'codemirror/theme/yonce.css';
 @import 'codemirror/theme/zenburn.css';
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }

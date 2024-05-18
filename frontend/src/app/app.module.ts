@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule, provideClientHydration } from '@angular/platform-browser';
-import { ReactiveFormsModule } from '@angular/forms';
-
+import { FormsModule,ReactiveFormsModule } from '@angular/forms';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { LogInComponent } from './components/log-in/log-in.component';
@@ -15,6 +14,24 @@ import { ProjectPageComponent } from './components/project-page/project-page.com
 import { LatexParagraphComponent } from './components/latex-paragraph/latex-paragraph.component';
 import { LatexEditorComponent } from './components/latex-editor/latex-editor.component';
 import { CodemirrorModule } from '@ctrl/ngx-codemirror';
+import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
+import { ProjectTableComponent } from './components/project-table/project-table.component';
+import { MatIconModule } from '@angular/material/icon';
+import {MatButtonModule} from '@angular/material/button';
+import {MatDialogModule} from '@angular/material/dialog';
+import {MatInputModule} from '@angular/material/input';
+import {MatTableModule} from '@angular/material/table';
+import {MatFormFieldModule} from '@angular/material/form-field';
+import {MatCheckboxModule} from '@angular/material/checkbox';
+import {MatSelectModule} from '@angular/material/select';
+import {MatChipsModule} from '@angular/material/chips';
+import {MatCardModule} from '@angular/material/card';
+import {MatToolbarModule} from '@angular/material/toolbar';
+import {MatAutocompleteModule} from '@angular/material/autocomplete';
+import {MatPaginatorModule} from '@angular/material/paginator';
+
+
+
 
 
 @NgModule({
@@ -30,16 +47,31 @@ import { CodemirrorModule } from '@ctrl/ngx-codemirror';
     ProjectPageComponent,
     LatexParagraphComponent,
     LatexEditorComponent,
+    ProjectTableComponent,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     ReactiveFormsModule,
-    CodemirrorModule
-
+    CodemirrorModule,
+    MatIconModule,
+    MatButtonModule,
+    MatDialogModule,
+    MatInputModule,
+    MatTableModule,
+    MatFormFieldModule,
+    MatCheckboxModule,
+    MatSelectModule,
+    MatChipsModule,
+    MatCardModule,
+    MatToolbarModule,
+    MatAutocompleteModule,
+    MatPaginatorModule,
+    FormsModule,
   ],
   providers: [
-    provideClientHydration()
+    provideClientHydration(),
+    provideAnimationsAsync()
   ],
   bootstrap: [AppComponent]
 })

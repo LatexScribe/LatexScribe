@@ -12,6 +12,10 @@ import { CodemirrorComponent } from '@ctrl/ngx-codemirror';
 import { DocumentsService } from '../../service/documents/documents.service';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { format } from 'date-fns';
+import { MatIconModule } from '@angular/material/icon';
+import { MatSelectModule } from '@angular/material/select';
+import { MatInputModule } from '@angular/material/input';
+
 
 // @ts-ignore
 const generator = new window.latexjs.HtmlGenerator({
@@ -188,10 +192,12 @@ function errorMessage(e, noFinalNewline) {
 })
 export class LatexEditorComponent implements OnInit, AfterViewInit {
   @ViewChild('codemirror') codeMirror!: CodemirrorComponent;
-  
 
   formGroup!: FormGroup;
+  name: string = 'Initial Project Name';
+  isEdit: boolean = false;
 
+  
   content: string = 'Hello';
 
   @ViewChild('preview') preview!: ElementRef;
@@ -210,8 +216,24 @@ export class LatexEditorComponent implements OnInit, AfterViewInit {
 
   ngOnInit(): void {
     this.formGroup = this.fb.group({
-      documentName: [''],
+      documentName: [this.name],
     });
+  }
+
+  onUpdate():void{
+    this.name = this.formGroup.get('documentName')?.value;
+    this.isEdit = false;
+    //call the API for editing
+  }
+
+  onEdit():void {
+    this.isEdit = true;
+    this.formGroup.get('documentName')?.setValue(this.name);
+  }
+
+  onCancel():void {
+    this.isEdit = false;
+    this.formGroup.get('documentName')?.setValue(this.name);
   }
 
   ngAfterViewInit(): void {
@@ -295,7 +317,6 @@ export class LatexEditorComponent implements OnInit, AfterViewInit {
     return decodedString;
   }
 }
-
 // webpack doesn't handle import.meta.url yet, so don't use latex.mjs
 // @ts-ignore
 // import { parse, HtmlGenerator, SyntaxError } from 'latex.js'

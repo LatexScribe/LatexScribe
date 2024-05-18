@@ -1,0 +1,17 @@
+table {
+    width: 100%;
+}
+
+.outer-container {
+  padding-bottom: 100px;
+}
+
+  
+.mat-mdc-form-field {
+    font-size: 14px;
+    width: 100%;
+}
+
+.example-chip-list {
+  width: 100%;
+}

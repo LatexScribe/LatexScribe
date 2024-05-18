@@ -7,7 +7,7 @@
 
 </div>
   <div class="d-flex justify-content-end col-9">
-
+  <a routerLink="/mainpage" *ngIf="currentUserUsername" class="me-2 btn btn-link text-dark">My Projects</a>    
   <a routerLink="/templates" *ngIf="currentUserUsername" class="me-2 btn btn-link text-dark">Templates</a>    
   <h2 *ngIf="currentUserUsername" class="me-2">{{currentUserUsername}}</h2>
   <a routerLink="/login" *ngIf="!currentUserUsername" class="btn btn-outline-dark rounded-pill ">Log in</a>
