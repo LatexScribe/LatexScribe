@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { AuthenticationService } from '../authentication/authentication.service';
 import axios from 'axios';
 import { Template } from '../../models/template.model';
+import { ProjectDataExtended } from '../../models/project-data-extended';
 @Injectable({
   providedIn: 'root'
 })
@@ -116,6 +117,21 @@ export class DocumentsService {
     }
   }
 
+  // async getDocumentById(id:string){
+
+  //   const api = axios.create({ baseURL: "http://localhost:8080/" });
+  //   const response=await api.request({
+  //     method: "get",
+  //     url: "api/v1/documents/${id}",
+   
+  //   headers: {
+  //     Authorization: `Bearer ${this.service.getCurrentUserAcessToken()}`,
+  //   },
+  //   });
+  //   //return new CustomDocument(response.data.id,response.data.name,response.data.size,response.data.lastModified,response.data.content,response.data.template,response.data.tag);
+  // }
+
+
   async getDocumentByName(name?: string) {
     try {
       const url = '/api/v1/documents' + (name ? `?name=${name}` : '');
@@ -160,7 +176,7 @@ export class DocumentsService {
     }
   }
 
-  async getDocuments(){
+  async getDocuments2(){
     let response = await this.api.request({
       method: 'get',
       url: 'api/v1/documents',
@@ -171,6 +187,25 @@ export class DocumentsService {
     });
     return response;
   }
+
+
+  async getDocuments(){
+    let response= await this.api.request({
+      method: "get",
+      url: 'api/v1/documents',
+      headers: {
+        Authorization: `Bearer ${this.service.getCurrentUserAcessToken()}`,
+        'Content-Type': 'application/json', 
+      },
+    });
+    
+    const dataArray: ProjectDataExtended[] = response.data.map((item: any) => {
+     return new ProjectDataExtended(item.id,item.name, item.size, item.lastModified,item.content,item.tag,item.template);
+   });
+
+    return dataArray;
+  }
+
 
   async getTags(){
     let response = await this.api.request({
@@ -201,7 +236,7 @@ export class DocumentsService {
           Authorization: `Bearer ${this.service.getCurrentUserAcessToken()}`,
         },
       });
-  
+      
       console.log('Document updated successfully:', response.data);
     } catch (error) {
       console.error('Error updating document:', error);
