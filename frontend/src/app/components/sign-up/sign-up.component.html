@@ -1,30 +1,42 @@
 <h1>Create Account</h1>
 
     <form [formGroup]="signup_form" (ngSubmit)="signUpUser()">
-        <div class="form-group">
+            <div class="form-group">
             <label for="full_name">Full Name</label><br>
             <input type="text" [formControl]="signup_form.controls.full_name"
             id="full_name" name="full_name"><br>
             </div>
+
+            <div class="error" *ngIf="signup_form.controls.full_name.errors?.['required']">*The full name field is required.</div>
+
             <div class="form-group">
             <label for="username">Username</label><br>
             <input type="text" [formControl]="signup_form.controls.username"
             id="username" name="username"><br>
             </div>
+
+            <div class="error" *ngIf="signup_form.controls.username.errors?.['required']">*The username field is required.</div>
+
             <div class="form-group">
             <label for="email">Email</label><br>
             <input type="text" [formControl]="signup_form.controls.email"
             id="email" name="email"><br>
             </div>
+
+            <div class="error" *ngIf="signup_form.controls.email.errors?.['required']">*The email field is required.</div>
+
             <div class="form-group">
             <label for="password">Password</label><br>
             <input type="text" [formControl]="signup_form.controls.password"
             id="password" name="password"><br>
             </div>
+
+            <div class="error2" *ngIf="signup_form.controls.password.errors?.['required']">*The password field is required.</div>
+
             <button id="signup" type="submit" [disabled]="!signup_form.valid">Create Account</button>
         </form>
-    <p><i><b>Already have an account? <a routerLink="/login" routerLinkActive="active" ariaCurrentWhenActive="page"><u>Log in</u></a></b></i></p>
-        <div *ngIf="signup_form.invalid && signup_form.controls.full_name.touched" style="width: 100%;">
+    <p><i><b>Already have an account? <a routerLink="/login" routerLinkActive="active" ariaCurrentWhenActive="page"><u style="color: darkblue;">Log in</u></a></b></i></p>
+        <!-- <div *ngIf="signup_form.invalid && signup_form.controls.full_name.touched" style="width: 100%;">
             <div style="background-color: palegoldenrod">
                 <b>Validation errors</b>
                 <ol>
@@ -40,6 +52,6 @@
                 </ol>
               </div>
     
-          </div>
+          </div> -->
     
     

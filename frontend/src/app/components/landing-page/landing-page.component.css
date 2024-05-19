@@ -3,7 +3,7 @@ body{
   }
 h1{
     text-align: center;
-    padding-top: 5%;
+    padding-top: 2%;
     font-size: 80px;
 }  
 .seamless{
@@ -18,7 +18,7 @@ h1{
     width: 28px; 
     height: 28px;
     text-align: center;
-    background: lightgreen;
+    background: darkviolet;
     border-radius: 50%;
 
   }
@@ -31,8 +31,8 @@ h1{
     align-items: center;
     border: 1px outset buttonborder;
     border-radius: 20px;
-    color: black;
-    background-color: teal;
+    color: white;
+    background-color: darkblue;
     text-decoration: none;
     box-shadow: 0 8px 16px 0 rgba(0,0,0,0.05), 0 6px 20px 0 rgba(0,0,0,1);
 }
@@ -42,9 +42,9 @@ h1{
 }
 .orange:after{
     content: '\02774';
-    color: orange;
+    color: darkviolet;
 }
 .orange2:after{
     content: '\02775';
-    color: orange;
+    color: darkviolet;
 }

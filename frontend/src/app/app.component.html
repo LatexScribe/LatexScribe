@@ -4,7 +4,7 @@
 
  
   <a class="navbar-brand"  href="http://localhost:4200">
-    <img src="../assets/images/latexlogo.png" width="70" height="40" alt="">
+    <img src="../assets/images/latexlogo2.png" width="100" height="70" alt="">
   </a>
 
 </div>
@@ -12,10 +12,10 @@
 
     
   <h2 *ngIf="currentUserUsername" class="me-2">{{currentUserUsername}}</h2>
-  <a routerLink="/login" *ngIf="!currentUserUsername" class="btn btn-outline-dark rounded-pill ">Log in</a>
-  <a routerLink="/login"  *ngIf="currentUserUsername" class="btn btn-outline-dark rounded-pill " (click)='logoutUser()' >Log out</a>
+  <a routerLink="/login" routerLinkActive="active" ariaCurrentWhenActive="page" *ngIf="!currentUserUsername" class="btn btn-outline-dark rounded-pill ">Log in</a>
+  <a routerLink="/login" routerLinkActive="active" ariaCurrentWhenActive="page"  *ngIf="currentUserUsername" class="btn btn-outline-dark rounded-pill " (click)='logoutUser()' >Log out</a>
 
-  <a routerLink="/signup" class="btn btn-outline-dark rounded-pill ms-2 me-2">Sign up</a>
+  <a routerLink="/signup" routerLinkActive="active" ariaCurrentWhenActive="page" class="btn btn-outline-dark rounded-pill ms-2 me-2">Sign up</a>
 
 
 </div>
