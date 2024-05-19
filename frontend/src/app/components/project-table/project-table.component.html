@@ -75,7 +75,8 @@
                 </div>
   
                 <div *ngIf="!row.isEdit">
-                  <a [href]="row.link" style="color: black;"
+                  
+                  <a [href]="row.link" style="color: black;"  [routerLink]="['/selectedProject',row.id]"
                   >{{ row.name }}</a>
                 </div>
               </td>
@@ -84,7 +85,7 @@
             <!-- Date Column -->
             <ng-container matColumnDef="last_modified">
               <th mat-header-cell *matHeaderCellDef mat-sort-header>Date</th>
-              <td mat-cell *matCellDef="let row">{{ row.last_modified }}</td>
+              <td mat-cell *matCellDef="let row">{{ row.lastModified }}</td>
             </ng-container>
   
             <!-- Tags Column -->

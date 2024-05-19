@@ -8,6 +8,7 @@ import { ProjectPageComponent } from './components/project-page/project-page.com
 import { SelectedTemplatePageComponent } from './components/selected-template-page/selected-template-page.component';
 import { TemplatesCategoriesPageComponent } from './components/templates-categories-page/templates-categories-page.component';
 import { TemplatesPageComponent } from './components/templates-page/templates-page.component';
+import { LatexEditorComponent } from './components/latex-editor/latex-editor.component';
 
 
 const routes: Routes = [
@@ -17,6 +18,7 @@ const routes: Routes = [
   {path:'mainpage',component:MainPageComponent},
   {path:'project',component:ProjectPageComponent},
   {path:"selectedtemplate/:id",component:SelectedTemplatePageComponent},
+  {path:"selectedProject/:id",component:LatexEditorComponent},
   {path:'templates/categories', component:TemplatesCategoriesPageComponent},
   {path:'templates', component:TemplatesPageComponent},
 

@@ -18,6 +18,7 @@ export class SelectedTemplatePageComponent implements OnInit{
 }
 
 ngOnInit(): void {
+  
   const id = Number(this.route.snapshot.paramMap.get('id'));
   if (id) {
    this.service.getTemplate(id).then(item=>this.selectedTemplate=item);
