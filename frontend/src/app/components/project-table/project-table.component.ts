@@ -188,7 +188,7 @@ export class ProjectTableComponent implements OnInit {
           row.id,
           row.name,
           this.documentsList[doc].size,
-          this.documentsList[doc].last_modified,
+          this.documentsList[doc].lastModified,
           this.documentsList[doc].content,
           this.documentsList[doc].template_id,
           row.tag_id

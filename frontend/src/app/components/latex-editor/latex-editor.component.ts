@@ -1,4 +1,5 @@
 import {
+  AfterContentInit,
   AfterViewInit,
   Component,
   ElementRef,
@@ -15,7 +16,7 @@ import { format } from 'date-fns';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSelectModule } from '@angular/material/select';
 import { MatInputModule } from '@angular/material/input';
-
+import { ActivatedRoute, Router } from '@angular/router';
 
 // @ts-ignore
 const generator = new window.latexjs.HtmlGenerator({
@@ -196,6 +197,8 @@ export class LatexEditorComponent implements OnInit, AfterViewInit {
   formGroup!: FormGroup;
   name: string = 'Initial Project Name';
   isEdit: boolean = false;
+  editExistingDocFlag: boolean=false;
+  selectedProject: Customdoc|undefined;
 
   
   content: string = 'Hello';
@@ -206,15 +209,28 @@ export class LatexEditorComponent implements OnInit, AfterViewInit {
     @Inject(DOCUMENT) private document: Document,
     @Inject(PLATFORM_ID) private platformId: Object,
     private documentService: DocumentsService,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private route: ActivatedRoute,
+  
   ) {
   }
+
 
   updatePreviewOnKeyUp(event:any){
     this.updatePreview();
   }
 
   ngOnInit(): void {
+    // this.codeMirror.codeMirror?.setValue(`\begin{abstract}
+    // This document will show most of the features of \LaTeX.js while at the same time being a gentle introduction to \LaTeX.
+    // In the appendix, the API as well as the format of custom macro definitions in JavaScript will be explained.
+    // \end{abstract}`);
+
+
+    
+
+
+
     this.formGroup = this.fb.group({
       documentName: [this.name],
     });
@@ -248,18 +264,64 @@ export class LatexEditorComponent implements OnInit, AfterViewInit {
               CodeMirror.fromTextArea(codeElement, {
                 lineNumbers: true,
                 lineWrapping: true,
+                
+                
+              
               });
+              
             }
           })
           .catch((error) => {
             console.error('Error loading CodeMirror:', error);
           });
+          
+        const id = Number(this.route.snapshot.paramMap.get('id'));
+        if (id) {
+          this.documentService.getDocumentByIdG(id).then(item => {
+            this.selectedProject = item;
+            this.editExistingDocFlag = true;
+
+            if (this.selectedProject?.content) {
+              this.codeMirror.writeValue(this.decodeFromBase64(this.selectedProject.content));
+              this.updatePreview();
+            }
+
+          });
+        }
+
+        // this.codeMirror.value=`adh`;
+        console.log("the content is");
+        console.log(this.selectedProject?.content);
+        if(this.selectedProject?.content){
+          console.log(this.selectedProject.content);
+          this.codeMirror.writeValue(this.decodeFromBase64(this.selectedProject.content));
+          this.updatePreview();
+        }
+        console.log("the end");
+        
+        
+        // const event = new KeyboardEvent('keyup', {
+        //   key: 'ArrowUp', // or 'ArrowDown', 'ArrowLeft', 'ArrowRight'
+        //   code: 'ArrowUp', // Optional: You can also specify the code property
+        //   bubbles: true
+        // });
+        
+        // console.log("eve");
+        // console.log(this.document.getElementById("target")as HTMLElement);
+        // ((this.document.getElementById("target"))as HTMLElement ).dispatchEvent(event);
+
+        
       }
+
+      
     }
   }
 
+
   updatePreview() {
-    const latexInput = this.codeMirror.codeMirror?.getValue();
+    let latexInput = this.codeMirror.codeMirror?.getValue();
+    if(latexInput==undefined && this.selectedProject?.content )
+      latexInput=this.decodeFromBase64(this.selectedProject?.content);
     console.log('Hello:::::', latexInput, window);
     
       try {
@@ -278,6 +340,11 @@ export class LatexEditorComponent implements OnInit, AfterViewInit {
       this.content = latexInput;
       console.log(this.content);
     }
+  }
+
+
+  editDocument(){
+    
   }
 
   async saveDocument() {
@@ -322,4 +389,5 @@ export class LatexEditorComponent implements OnInit, AfterViewInit {
 // import { parse, HtmlGenerator, SyntaxError } from 'latex.js'
 // @ts-ignore
 import en from 'hyphenation.en-us';
+import { Customdoc } from '../../models/customdoc.model';
 

@@ -3,6 +3,7 @@ import { AuthenticationService } from '../authentication/authentication.service'
 import axios from 'axios';
 import { Template } from '../../models/template.model';
 import { ProjectDataExtended } from '../../models/project-data-extended';
+import { Customdoc } from '../../models/customdoc.model';
 @Injectable({
   providedIn: 'root'
 })
@@ -117,19 +118,19 @@ export class DocumentsService {
     }
   }
 
-  // async getDocumentById(id:string){
+  async getDocumentByIdG(id:number){
 
-  //   const api = axios.create({ baseURL: "http://localhost:8080/" });
-  //   const response=await api.request({
-  //     method: "get",
-  //     url: "api/v1/documents/${id}",
+    const api = axios.create({ baseURL: "http://localhost:8080/" });
+    const response=await api.request({
+      method: "get",
+      url: `api/v1/documents/${id}`,
    
-  //   headers: {
-  //     Authorization: `Bearer ${this.service.getCurrentUserAcessToken()}`,
-  //   },
-  //   });
-  //   //return new CustomDocument(response.data.id,response.data.name,response.data.size,response.data.lastModified,response.data.content,response.data.template,response.data.tag);
-  // }
+    headers: {
+      Authorization: `Bearer ${this.service.getCurrentUserAcessToken()}`,
+    },
+    });
+    return new Customdoc(response.data.id,response.data.name,response.data.size,response.data.lastModified,response.data.content,response.data.template,response.data.tag);
+  }
 
 
   async getDocumentByName(name?: string) {

@@ -36,12 +36,13 @@
   </div>
 </form>
 
-<button class="btn btn-primary m-1" (click)="updatePreview()">Run</button>
-<button class="btn btn-primary m-1" (click)="saveDocument()">Save PDF</button>
+
+<button class="btn btn-primary m-1" (click)="saveDocument()" *ngIf="!editExistingDocFlag">Save PDF</button>
+<button class="btn btn-primary m-1" (click)="editDocument()" *ngIf="editExistingDocFlag">Edit PDF</button>
 
 <div class="row">
   <div class="col border border-shadow ms-1">
-    <div (keyup)="updatePreviewOnKeyUp($event)">
+    <div (keyup)="updatePreviewOnKeyUp($event)" id="target">
       <ngx-codemirror
         #codemirror
         [options]="{
@@ -51,7 +52,9 @@
           styleActiveLine: true,
           matchBrackets: true,
           lineWrapping: true,
+          
         }"
+        
       ></ngx-codemirror>
     </div>
   </div>

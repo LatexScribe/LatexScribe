@@ -2,7 +2,7 @@ export class ProjectDataExtended {
         id: string = '';
         Title: string = '';
         size: string | null = null;
-        last_modified: string = '';
+        lastModified: string = '';
         content: string='';
         tag_id: string = '';
         template_id:string='';
@@ -12,7 +12,7 @@ export class ProjectDataExtended {
           name: string,
 
           size: string | null,
-          last_modified: string,
+          lastModified: string,
           content:string,
           template:string,
           tag: string,
@@ -20,7 +20,7 @@ export class ProjectDataExtended {
           this.id = id;
           this.size = size;
           this.Title = name;
-          this.last_modified = last_modified;
+          this.lastModified = lastModified;
           this.content=content;
           this.tag_id=tag;
           this.template_id=template;
