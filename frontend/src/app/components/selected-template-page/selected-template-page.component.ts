@@ -28,6 +28,22 @@ ngOnInit(): void {
 onBack(): void {
   this.router.navigate(['/templates']);
 }
+
+openAsTemplate(){
+  console.log("opeb as templste the id is "+this.selectedTemplate?.id)
+  if(this.selectedTemplate?.id!=undefined){
+   const templateId= this.service.createDocumentFromTemplate(this.selectedTemplate?.id)
+  
+
+   templateId.then(tempId=>{
+    console.log("the result is");
+    console.log(tempId);
+    this.router.navigate(['/selectedProject', tempId]);
+
+   })
+
+  }
+}
 openPdf(){
   const url=`http://localhost:8080/public/templates/${this.selectedTemplate?.codeName}/source.pdf`;//"http://localhost:8080/public/templates/RESUME/Jakes_Resume/image.jpg"; //"http://localhost:4200/public/templates/RESUME/Jakes_Resume/source.pdf"
   console.log("yes")

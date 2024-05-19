@@ -238,6 +238,26 @@ export class DocumentsService {
 
   
 
+  // POST /api/v1/documents/template/{templateID}
+  async createDocumentFromTemplate(id:string){
+
+    const api = axios.create({ baseURL: "http://localhost:8080/" });
+    const response=await api.request({
+      method: "post",
+      url: `/api/v1/documents/template/${id}`,
+   
+    headers: {
+      Authorization: `Bearer ${this.service.getCurrentUserAcessToken()}`,
+    },
+    });
+  console.log("the id is ")
+    console.log(response.data);
+    console.log("THE END")
+
+    return response.data;
+
+  }
+
 
   async changeDocumentTest(id: string, name: string, size: any, lastModified: string, content: string, template: number | null, tag: number|null) {
     try {

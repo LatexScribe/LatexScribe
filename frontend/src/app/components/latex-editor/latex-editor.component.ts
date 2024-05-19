@@ -167,7 +167,7 @@ function excerpt(txt, o) {
 /* render a useful error message */
 // @ts-ignore
 function errorMessage(e, noFinalNewline) {
-  var l = e.location;
+  var l = e.location; 
   var prefix1 = 'line ' + e.line + ' (column ' + e.column + '): ';
   var prefix2 = '';
   for (var i = 0; i < prefix1.length + l.prolog.length; i++) prefix2 += '-';
