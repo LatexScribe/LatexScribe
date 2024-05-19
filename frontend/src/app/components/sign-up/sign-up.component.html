@@ -27,7 +27,7 @@
             </div>
             <div class="form-group">
             <label for="password">Password</label><br>
-            <input type="text" [formControl]="signup_form.controls.password"
+            <input type="password" [formControl]="signup_form.controls.password"
             id="password" name="password"><br>
             </div>
             <div *ngIf="signup_form.invalid && signup_form.controls.full_name.touched" style="width: 100%;">
