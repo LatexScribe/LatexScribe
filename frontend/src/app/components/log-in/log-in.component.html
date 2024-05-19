@@ -7,17 +7,17 @@
             <input type="text" [formControl]="login_form.controls.email"
             id="email" name="email"><br>
           </div>
-
+          <div *ngIf="login_form.invalid && login_form.controls.email.touched" style="width: 100%;">
             <div class="error" *ngIf="login_form.controls.email.errors?.['required']">*The email field is required.</div>    
-
+          </div>
           <div class="form-group">
             <label for="password">Password</label><br>
             <input type="text" [formControl]="login_form.controls.password"
             id="password" name="password"><br>
           </div>
-
+          <div *ngIf="login_form.invalid && login_form.controls.email.touched" style="width: 100%;">
             <div class="error2" *ngIf="login_form.controls.password.errors?.['required']">*The password field is required.</div>    
-
+          </div>
             <button id="login" type="submit" [disabled]="!login_form.valid">Log in</button>
     
         </form>
