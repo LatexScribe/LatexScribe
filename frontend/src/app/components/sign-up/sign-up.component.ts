@@ -1,12 +1,6 @@
 import { AuthenticationService } from './../../service/authentication/authentication.service';
-
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import axios from 'axios';
-import { userInfo } from 'os';
-import { User } from '../../models/user.model';
-
-
 
 @Component({
   selector: 'app-sign-up',
@@ -15,10 +9,10 @@ import { User } from '../../models/user.model';
 })
 export class SignUpComponent implements OnInit {   
   signup_form = new FormGroup({
-    full_name: new FormControl<string>('', [Validators.required]), 
-    username: new FormControl<string>('', [Validators.required]),
-    email: new FormControl<string>('', [Validators.required]),
-    password: new FormControl<string>('', [Validators.required]),
+    full_name: new FormControl<string>('', [Validators.required, Validators.maxLength(30), ]),
+    username: new FormControl<string>('', [Validators.required, Validators.maxLength(30), ]),
+    email: new FormControl<string>('', [Validators.required, Validators.email]),
+    password: new FormControl<string>('', [Validators.required, Validators.maxLength(30)]),
   });
 
   constructor(private service: AuthenticationService) { }
@@ -28,6 +22,8 @@ export class SignUpComponent implements OnInit {
       this.service.registerAndLogin(this.signup_form.value.username,
         this.signup_form.value.full_name,this.signup_form.value.email,this.signup_form.value.password
       )
+      this.signup_form.reset();
+
   }
 
   ngOnInit() { }
