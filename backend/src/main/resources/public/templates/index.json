@@ -1,5 +1,27 @@
 {
   "categories": {
+    "BOOK": {
+      "templates": [
+        {
+          "author": "John Doe",
+          "description": "A simple LaTeX template for writing a book with chapters, sections, and subsections.",
+          "license": "MIT",
+          "name": "Book Template",
+          "path": "Basic_Book"
+        }
+      ]
+    },
+    "NEWSLETTER": {
+      "templates": [
+        {
+          "author": "John Doe",
+          "description": "A simple LaTeX template for creating a newsletter with sections for articles, news, updates, and events.",
+          "license": "MIT",
+          "name": "Newsletter Template",
+          "path": "NEWSLETTER_Basic"
+        }
+      ]
+    },
     "RESUME": {
       "templates": [
         {
@@ -8,6 +30,17 @@
           "license": "MIT",
           "name": "John Doe Resume",
           "path": "John_Resume"
+        }
+      ]
+    },
+    "THESIS": {
+      "templates": [
+        {
+          "author": "John Doe",
+          "description": "A comprehensive LaTeX template for writing a PhD thesis, including sections for abstract, acknowledgments, introduction, literature review, methodology, results, discussion, conclusion, and references.",
+          "license": "MIT",
+          "name": "PhD Thesis Template",
+          "path": "PHD_Thesis"
         }
       ]
     }
