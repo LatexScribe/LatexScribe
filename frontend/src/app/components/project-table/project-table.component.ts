@@ -35,7 +35,7 @@ export class ProjectTableComponent implements OnInit {
     'Action',
   ];
 
-  dataSource: MatTableDataSource<ProjectData>;
+  dataSource: MatTableDataSource<ProjectDataExtended>;
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
@@ -67,7 +67,7 @@ export class ProjectTableComponent implements OnInit {
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
     this.getTags();
-    this.getDocuments2();
+    
 
     //this.service.createDocument("documentname.tex",103,"2024-04-04T07:32:39", "VGVzdGluZwo=", null,null);
 
@@ -75,6 +75,10 @@ export class ProjectTableComponent implements OnInit {
       this.documentsList = docs;
       console.log("Initialization")
       console.log(this.documentsList)
+
+      this.dataSource= new MatTableDataSource(this.documentsList);
+      this.dataSource.paginator = this.paginator;
+      this.dataSource.sort= this.sort;
     });
   }
 
@@ -87,10 +91,11 @@ export class ProjectTableComponent implements OnInit {
     const selectedRows = this.dataSource.data.filter((row) => row.isSelected);
  
     selectedRows.forEach((row) => {
-      const document = this.documentsList.find(doc => doc.id == row.id);
       for(let i=0;i<this.documentsList.length;i++){
         if(this.documentsList[i].id==row.id){
           this.documentsList[i].tag_id=(selectedTagId)? selectedTagId:null;
+          this.documentsList[i].tag_name=selectedTag?.name;
+
           this.service.changeDocumentTest(this.documentsList[i].id,
             this.documentsList[i]?.Title,
             this.documentsList[i]?.size,
@@ -104,7 +109,8 @@ export class ProjectTableComponent implements OnInit {
       }
     }
   )
-  this.getDocuments2();
+  this.dataSource= new MatTableDataSource(this.documentsList);
+
   console.log("updated");
   console.log(this.dataSource.data);
     this.unselectAll();
@@ -125,36 +131,40 @@ export class ProjectTableComponent implements OnInit {
   }
 
   //GET all documents
-  async getDocuments2(){
-    try {
-      let response = await this.service.getDocuments2();
-      console.log("this is the changed response");
-      console.log(response.data.length);
+  // async getDocuments2(){
+  //   try {
+  //     let response = await this.service.getDocuments2();
+  //     console.log("this is the changed response");
+  //     console.log(response.data.length);
 
-      let projectDataArray: ProjectData[] = [];
+  //     let projectDataArray: ProjectDataExtended[] = [];
       
-      for(let i=0; i< response.data.length;i++ ){
-       const entry=new ProjectData(response.data[i].id,
-          response.data[i].size,
-          response.data[i].name,
-          response.data[i].lastModified,
-         (response.data[i].tag!=null)? response.data[i].tag.name: null)
+  //     for(let i=0; i< response.data.length;i++ ){
+  //      const entry=new ProjectDataExtended(response.data[i].id,
+  //         response.data[i].name,
+  //         response.data[i].size,
+  //         response.data[i].lastModified,
+  //         response.data[i].content,
+  //        (response.data[i].template!=null)? response.data[i].template.id:null,
+  //        (response.data[i].tag!=null)? response.data[i].tag.id: null)
 
-         projectDataArray.push(entry);
 
-      }
+  //        entry.tag_name=(response.data[i].tag!=null)? response.data[i].tag.name :null;
+  //        projectDataArray.push(entry);
 
-      console.log("----project data arr");
-      console.log(projectDataArray);
+  //     }
+
+  //     console.log("----project data arr");
+  //     console.log(projectDataArray);
       
 
-      this.dataSource= new MatTableDataSource(projectDataArray);
-      this.dataSource.paginator = this.paginator;
-      this.dataSource.sort= this.sort;
-    } catch (error) {
-      console.error('Error getting documents:', error);
-    }
-  }
+  //     this.dataSource= new MatTableDataSource(projectDataArray);
+  //     this.dataSource.paginator = this.paginator;
+  //     this.dataSource.sort= this.sort;
+  //   } catch (error) {
+  //     console.error('Error getting documents:', error);
+  //   }
+  // }
 
 
   //DELETE document
@@ -164,7 +174,13 @@ export class ProjectTableComponent implements OnInit {
       if (confirmation) {
         await this.service.deleteDocument(id);
       }
-      this.getDocuments2();
+      // this.getDocuments2();
+      this.documentsList=this.documentsList.filter(doc=>doc.id!== id);
+      console.log("after delete");
+     
+      console.log(this.documentsList)
+      this.dataSource= new MatTableDataSource(this.documentsList);
+
     } catch (error) {
       console.error('Error deleting document:', error);
     }
@@ -182,25 +198,25 @@ export class ProjectTableComponent implements OnInit {
   }
 
   //GET document by id
-  async getDocumentById(id: string) {
-    try {
-      let response = await this.service.getDocumentById(id);
-      this.document = response.data;
-      const doc: ProjectDataExtended = response.data.map((item: any) => {
-        return new ProjectDataExtended(
-          item.id,
-          item.name,
-          item.size,
-          item.last_modified,
-          item.content,
-          item.template,
-          item.tag
-        );
-      });
-    } catch (error) {
-      console.error('Error getting document by id:', error);
-    }
-  }
+  // async getDocumentById(id: string) {
+  //   try {
+  //     let response = await this.service.getDocumentById(id);
+  //     this.document = response.data;
+  //     const doc: ProjectDataExtended = response.data.map((item: any) => {
+  //       return new ProjectDataExtended(
+  //         item.id,
+  //         item.name,
+  //         item.size,
+  //         item.last_modified,
+  //         item.content,
+  //         item.template,
+  //         item.tag
+  //       );
+  //     });
+  //   } catch (error) {
+  //     console.error('Error getting document by id:', error);
+  //   }
+  // }
 
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;

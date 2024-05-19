@@ -204,7 +204,13 @@ export class DocumentsService {
     console.log(response.data);
     console.log("the end");
     const dataArray: ProjectDataExtended[] = response.data.map((item: any) => {
-     return new ProjectDataExtended(item.id,item.name, item.size, item.lastModified,item.content,item.template,(item.tag!=null)? item.tag.name:null);
+      return new ProjectDataExtended(item.id, item.name,
+        item.size,
+        item.lastModified,
+        item.content,
+        item.template,
+        (item.tag != null) ? item.tag.id : null,
+        (item.tag != null) ? item.tag.name : null);
    });
 
     return dataArray;
