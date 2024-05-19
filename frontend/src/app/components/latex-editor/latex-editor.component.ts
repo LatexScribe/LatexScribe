@@ -221,15 +221,6 @@ export class LatexEditorComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit(): void {
-    // this.codeMirror.codeMirror?.setValue(`\begin{abstract}
-    // This document will show most of the features of \LaTeX.js while at the same time being a gentle introduction to \LaTeX.
-    // In the appendix, the API as well as the format of custom macro definitions in JavaScript will be explained.
-    // \end{abstract}`);
-
-
-    
-
-
 
     this.formGroup = this.fb.group({
       documentName: [this.name],
@@ -280,11 +271,18 @@ export class LatexEditorComponent implements OnInit, AfterViewInit {
           this.documentService.getDocumentByIdG(id).then(item => {
             this.selectedProject = item;
             this.editExistingDocFlag = true;
+            console.log("the element: ")
+            console.log(this.document.getElementById("document_name"));
+
+            this.name = this.selectedProject.name;
+            this.formGroup.get('documentName')?.setValue(this.name);
+
 
             if (this.selectedProject?.content) {
               this.codeMirror.writeValue(this.decodeFromBase64(this.selectedProject.content));
               this.updatePreview();
             }
+
 
           });
         }
@@ -344,6 +342,17 @@ export class LatexEditorComponent implements OnInit, AfterViewInit {
 
 
   editDocument(){
+    const name :string = this.formGroup.get('documentName')?.value;
+
+    if(this.selectedProject!=null)
+    this.documentService.changeDocumentTest(this.selectedProject.id,
+     (name.trim().length>0)? name: "Untitled",
+      this.selectedProject?.size,
+      this.selectedProject?.lastModified,
+    this.exampleEncode(),
+    (this.selectedProject.template_id)? Number(this.selectedProject.template_id):null,
+    (this.selectedProject.tag_id)? Number(this.selectedProject.tag_id):null,);
+    
 
   }
 

@@ -173,13 +173,15 @@ export class ProjectTableComponent implements OnInit {
       const confirmation = confirm('Are you sure you want to delete?');
       if (confirmation) {
         await this.service.deleteDocument(id);
-      }
-      // this.getDocuments2();
-      this.documentsList=this.documentsList.filter(doc=>doc.id!== id);
+
+        this.documentsList=this.documentsList.filter(doc=>doc.id!== id);
       console.log("after delete");
      
       console.log(this.documentsList)
       this.dataSource= new MatTableDataSource(this.documentsList);
+      }
+      // this.getDocuments2();
+      
 
     } catch (error) {
       console.error('Error deleting document:', error);

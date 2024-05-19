@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import { AuthenticationService } from '../authentication/authentication.service';
 import axios from 'axios';
-import { Template } from '../../models/template.model';
 import { ProjectDataExtended } from '../../models/project-data-extended';
 import { Customdoc } from '../../models/customdoc.model';
+import { Template } from '../../models/template.model';
 @Injectable({
   providedIn: 'root'
 })
@@ -129,8 +129,16 @@ export class DocumentsService {
       Authorization: `Bearer ${this.service.getCurrentUserAcessToken()}`,
     },
     });
-    return new Customdoc(response.data.id,response.data.name,response.data.size,response.data.lastModified,response.data.content,response.data.template,response.data.tag);
+  
+    return new Customdoc(response.data.id,
+      response.data.name,
+      response.data.size,
+      response.data.lastModified,
+      response.data.content,
+      (response.data.template!=null)? response.data.template.id:null,
+      (response.data.tag!=null)? response.data.tag.id:null,);
   }
+
 
 
   async getDocumentByName(name?: string) {
