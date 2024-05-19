@@ -4,6 +4,7 @@ import {
   FormGroup,
   FormsModule,
   ReactiveFormsModule,
+  Validators,
 } from '@angular/forms';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatSort, MatSortModule } from '@angular/material/sort';
@@ -12,6 +13,7 @@ import { MatCheckboxChange } from '@angular/material/checkbox';
 import { DocumentsService } from '../../service/documents/documents.service';
 import { ProjectData } from '../../models/project-data';
 import { ProjectDataExtended } from '../../models/project-data-extended';
+import { Customdoc } from '../../models/customdoc.model';
 
 interface Tag {
   id: string;
@@ -46,10 +48,12 @@ export class ProjectTableComponent implements OnInit {
 
   //TAGS
   tags: Tag[] = [];
-  tagControl = new FormControl({ value: '', disabled: true });
+  tagControl = new FormControl(  '', [Validators.required] );
   form = new FormGroup({
     tag: this.tagControl,
   });
+
+
 
   document: any;
 
@@ -74,6 +78,38 @@ export class ProjectTableComponent implements OnInit {
     });
   }
 
+  changeTagsOfSelectedRows(){
+    console.log("tag changed");
+    const selectedTagName=this.tagControl.value;
+    const selectedTag = this.tags.find(tag => tag.name === selectedTagName); 
+    const selectedTagId=selectedTag?.id;
+
+    const selectedRows = this.dataSource.data.filter((row) => row.isSelected);
+ 
+    selectedRows.forEach((row) => {
+      const document = this.documentsList.find(doc => doc.id == row.id);
+      for(let i=0;i<this.documentsList.length;i++){
+        if(this.documentsList[i].id==row.id){
+          this.documentsList[i].tag_id=(selectedTagId)? selectedTagId:null;
+          this.service.changeDocumentTest(this.documentsList[i].id,
+            this.documentsList[i]?.Title,
+            this.documentsList[i]?.size,
+            this.documentsList[i]?.lastModified,
+            this.documentsList[i]?.content,
+            (this.documentsList[i]?.template_id) ? Number(this.documentsList[i]?.template_id) : null,
+            Number(selectedTagId));
+           
+        }
+
+      }
+    }
+  )
+  this.getDocuments2();
+  console.log("updated");
+  console.log(this.dataSource.data);
+    this.unselectAll();
+  }
+
   async getTags() {
     try {
       let response = await this.service.getTags();
@@ -92,7 +128,27 @@ export class ProjectTableComponent implements OnInit {
   async getDocuments2(){
     try {
       let response = await this.service.getDocuments2();
-      this.dataSource= new MatTableDataSource(response.data);
+      console.log("this is the changed response");
+      console.log(response.data.length);
+
+      let projectDataArray: ProjectData[] = [];
+      
+      for(let i=0; i< response.data.length;i++ ){
+       const entry=new ProjectData(response.data[i].id,
+          response.data[i].size,
+          response.data[i].name,
+          response.data[i].lastModified,
+         (response.data[i].tag!=null)? response.data[i].tag.name: null)
+
+         projectDataArray.push(entry);
+
+      }
+
+      console.log("----project data arr");
+      console.log(projectDataArray);
+      
+
+      this.dataSource= new MatTableDataSource(projectDataArray);
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort= this.sort;
     } catch (error) {
@@ -156,16 +212,15 @@ export class ProjectTableComponent implements OnInit {
 
   selectAll(event: MatCheckboxChange) {
     this.dataSource.data.forEach((row) => (row.isSelected = event.checked));
-    this.toggleTagControl();
+  
   }
+  unselectAll(){
+    this.dataSource.data.forEach((row) => (row.isSelected = false));
 
-  toggleTagControl() {
-    if (this.hasSelectedRows() && this.tags.length > 0) {
-      this.tagControl.enable();
-    } else {
-      this.tagControl.disable();
-    }
   }
+  
+
+
 
   hasSelectedRows(): boolean {
     return this.dataSource.data.some((row) => row.isSelected);
@@ -184,21 +239,22 @@ export class ProjectTableComponent implements OnInit {
       console.log(row.size)
       console.log(this.documentsList)
       if (this.documentsList[doc].id == row.id) {
-        this.service.changeDocument(
+        this.service.changeDocumentTest(
           row.id,
           row.name,
           this.documentsList[doc].size,
           this.documentsList[doc].lastModified,
           this.documentsList[doc].content,
-          this.documentsList[doc].template_id,
+          (this.documentsList[doc].template_id==null)? null: Number(this.documentsList[doc].template_id),
           row.tag_id
         );
         this.documentsList[doc].Title = row.name;
-        this.documentsList[doc].tag_id = "1n";
+        this.documentsList[doc].tag_id = row.tag_id;
         this.documentsList[doc].size = row.size;
       }
     }
     console.log(this.documentsList);
+    row.isEdit=false;
   }
 
   onEdit(TitleObj: any) {

@@ -344,7 +344,7 @@ export class LatexEditorComponent implements OnInit, AfterViewInit {
 
 
   editDocument(){
-    
+
   }
 
   async saveDocument() {

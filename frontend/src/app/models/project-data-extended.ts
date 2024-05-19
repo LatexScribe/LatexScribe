@@ -4,7 +4,7 @@ export class ProjectDataExtended {
         size: string | null = null;
         lastModified: string = '';
         content: string='';
-        tag_id: string = '';
+        tag_id: string | null='';
         template_id:string='';
       
         constructor(

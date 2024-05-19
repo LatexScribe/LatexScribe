@@ -30,15 +30,18 @@
         
             <!-- Select Tag Form -->
             <div class="col-auto" style="width: 400px;">
-              <form [formGroup]="form">
+              <form [formGroup]="form" (ngSubmit)="changeTagsOfSelectedRows()">
                 <mat-form-field>
                   <mat-label>Select tag</mat-label>
-                  <mat-select [formControl]="tagControl" name="tag">
+                  <mat-select [formControl]="tagControl" name="tag"  >
                     <mat-option>None</mat-option>
                     <mat-option *ngFor="let tag of tags" [value]="tag.name">{{ tag.name }}</mat-option>
                   </mat-select>
                 </mat-form-field>
+                <button id="signup" type="submit" [disabled]="(!form.valid || !hasSelectedRows())" class="btn btn-primary">Submit</button>
+
                 <p>Selected: {{ tagControl.value }}</p>
+
               </form>
             </div>
           </div>
@@ -94,7 +97,7 @@
               <td mat-cell *matCellDef="let row">
                 <mat-chip-set>
                   <mat-chip>
-                    {{ row.TagName }}
+                    {{ row.tag_id }}
                   </mat-chip>
                 </mat-chip-set>
               </td>

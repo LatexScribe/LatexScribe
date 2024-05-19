@@ -199,9 +199,12 @@ export class DocumentsService {
         'Content-Type': 'application/json', 
       },
     });
-    
+
+    console.log("noow");
+    console.log(response.data);
+    console.log("the end");
     const dataArray: ProjectDataExtended[] = response.data.map((item: any) => {
-     return new ProjectDataExtended(item.id,item.name, item.size, item.lastModified,item.content,item.tag,item.template);
+     return new ProjectDataExtended(item.id,item.name, item.size, item.lastModified,item.content,item.template,(item.tag!=null)? item.tag.name:null);
    });
 
     return dataArray;
@@ -219,7 +222,10 @@ export class DocumentsService {
     return response;
   }
 
-  async changeDocument(id: string, name: string, size: any, lastModified: string, content: string, template: any, tag: any) {
+  
+
+
+  async changeDocumentTest(id: string, name: string, size: any, lastModified: string, content: string, template: number | null, tag: number|null) {
     try {
       const url = `api/v1/documents/${id}`;
       const response = await this.api.request({
@@ -230,8 +236,8 @@ export class DocumentsService {
           "size": size,
           "lastModified": lastModified,
           "content": content,
-          "template": template,
-          "tag": tag
+          "template": (template==null)? null:{"id":template},
+          "tag": (tag==null)? null:{"id":tag}
         },
         headers: {
           Authorization: `Bearer ${this.service.getCurrentUserAcessToken()}`,

@@ -16,6 +16,7 @@ export class TemplatesPageComponent implements OnInit{
   constructor(private service: DocumentsService,private authservice: AuthenticationService ) {  }
 
   ngOnInit(): void {
+
     this.service.getTemplates().then((templates: Template[]) => {
       this.templates = templates;
     });
