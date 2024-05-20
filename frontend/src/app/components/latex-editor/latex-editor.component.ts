@@ -52,22 +52,6 @@ function links() {
   }
 }
 
-// @ts-ignore
-function createDownloadButton() {
-  let button = document.createElement('button');
-  button.innerHTML = 'Save PDF';
-  button.style.position = 'absolute';
-  button.style.top = '10px';
-  button.style.right = '10px';
-  button.classList.add('hidden-print');
-  button.classList.add('btn', 'btn-primary', 'm-1');
-  button.addEventListener('click', () => {
-    window.print();
-  });
-
-  document.body.appendChild(button);
-}
-
 /* function to compile latex source into the given iframe */
 // @ts-ignore
 function compile(latex, iframe, title) {
@@ -109,7 +93,21 @@ function compile(latex, iframe, title) {
     // Add createDownloadButton function to iframe and trigger on initial load.
     var downloadScript = newDoc.createElement('script');
     downloadScript.text = `
-      ${createDownloadButton.toString()}
+      function createDownloadButton() {
+        let button = document.createElement('button');
+        button.innerHTML = 'Save PDF';
+        button.style.position = 'absolute';
+        button.style.top = '10px';
+        button.style.right = '10px';
+        button.classList.add('hidden-print');
+        button.classList.add('btn', 'btn-primary', 'm-1');
+        button.addEventListener('click', () => {
+          console.log("DOWNLOADING PDF");
+          window.print();
+        });
+      
+        document.body.appendChild(button);
+      }
       document.addEventListener("DOMContentLoaded", createDownloadButton)
     `;
     newDoc.head.appendChild(downloadScript);
