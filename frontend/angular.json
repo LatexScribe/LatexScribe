@@ -26,14 +26,9 @@
             "outputPath": "dist/angular-latex",
             "index": "src/index.html",
             "browser": "src/main.ts",
-            "polyfills": [
-              "zone.js"
-            ],
+            "polyfills": ["zone.js"],
             "tsConfig": "tsconfig.app.json",
-            "assets": [
-              "src/favicon.ico",
-              "src/assets"
-            ],
+            "assets": ["src/favicon.ico", "src/assets"],
             "styles": [
               "@angular/material/prebuilt-themes/indigo-pink.css",
               "src/styles.css",
@@ -43,12 +38,7 @@
               "node_modules/codemirror/addon/dialog/dialog.css",
               "node_modules/codemirror/addon/search/matchesonscrollbar.css"
             ],
-            "scripts": [],
-            "server": "src/main.server.ts",
-            "prerender": true,
-            "ssr": {
-              "entry": "server.ts"
-            }
+            "scripts": []
           },
           "configurations": {
             "production": {
@@ -56,7 +46,7 @@
                 {
                   "type": "initial",
                   "maximumWarning": "500kb",
-                  "maximumError": "1mb"
+                  "maximumError": "5mb"
                 },
                 {
                   "type": "anyComponentStyle",
@@ -70,8 +60,8 @@
               "optimization": false,
               "extractLicenses": false,
               "sourceMap": true,
-              "ssr": false,  
-              "prerender": false 
+              "ssr": false,
+              "prerender": false
             }
           },
           "defaultConfiguration": "production"
@@ -97,27 +87,21 @@
         "test": {
           "builder": "@angular-devkit/build-angular:karma",
           "options": {
-            "polyfills": [
-              "zone.js",
-              "zone.js/testing"
-            ],
+            "polyfills": ["zone.js", "zone.js/testing"],
             "tsConfig": "tsconfig.spec.json",
-            "assets": [
-              "src/favicon.ico",
-              "src/assets"
-            ],
+            "assets": ["src/favicon.ico", "src/assets"],
             "styles": [
               "src/styles.css",
               "@angular/material/prebuilt-themes/indigo-pink.css",
               "node_modules/bootstrap/dist/css/bootstrap.min.css",
-              "node_modules/codemirror/lib/codemirror.css",   
-              "node_modules/codemirror/theme/monokai.css", 
+              "node_modules/codemirror/lib/codemirror.css",
+              "node_modules/codemirror/theme/monokai.css",
               "node_modules/codemirror/theme/3024-day.css",
               "node_modules/codemirror/theme/3024-night.css"
             ],
             "scripts": [
               "node_modules/codemirror/lib/codemirror.js",
-              "node_modules/codemirror/mode/javascript/javascript.js", 
+              "node_modules/codemirror/mode/javascript/javascript.js",
               "node_modules/codemirror/addon/selection/active-line.js",
               "node_modules/codemirror/addon/edit/matchbrackets.js"
             ]
