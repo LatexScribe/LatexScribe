@@ -8,7 +8,7 @@ import {
   OnInit,
   PLATFORM_ID,
   ViewChild,
-  ViewEncapsulation
+  ViewEncapsulation,
 } from '@angular/core';
 import { DOCUMENT, isPlatformBrowser } from '@angular/common';
 import { CodemirrorComponent } from '@ctrl/ngx-codemirror';
@@ -26,18 +26,12 @@ import 'codemirror/addon/search/matchesonscrollbar';
 import 'codemirror/addon/search/jump-to-line';
 
 // @ts-ignore
-let generator: any=null;
-// @ts-ignore
-if(window.latesjs){
-  // @ts-ignore
-  generator= new window.latexjs.HtmlGenerator({
-    hyphenate: true,
-    languagePatterns: en,
-    styles: [],
-  });
-  
-}
- 
+let generator: any = new window.latexjs.HtmlGenerator({
+  hyphenate: true,
+  languagePatterns: en,
+  styles: [],
+});
+
 var scrollY = 0;
 
 // @ts-ignore
@@ -249,11 +243,8 @@ function errorMessage(e, noFinalNewline) {
   templateUrl: './latex-editor.component.html',
   styleUrl: './latex-editor.component.css',
   encapsulation: ViewEncapsulation.None,
-
 })
-export class LatexEditorComponent implements OnInit, AfterViewInit,OnDestroy {
-  
-
+export class LatexEditorComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild('codemirror') codeMirror!: CodemirrorComponent;
 
   formGroup!: FormGroup;
@@ -261,8 +252,8 @@ export class LatexEditorComponent implements OnInit, AfterViewInit,OnDestroy {
   isEdit: boolean = false;
   editExistingDocFlag: boolean = false;
   selectedProject: Customdoc | undefined;
-  saveFlag!:boolean;
-  intervalId:any;
+  saveFlag!: boolean;
+  intervalId: any;
 
   content: string = 'Hello';
 
@@ -274,7 +265,7 @@ export class LatexEditorComponent implements OnInit, AfterViewInit,OnDestroy {
     private documentService: DocumentsService,
     private fb: FormBuilder,
     private route: ActivatedRoute,
-    private navigationRouter:Router
+    private navigationRouter: Router
   ) {}
   ngOnDestroy(): void {
     if (this.intervalId) {
@@ -320,17 +311,17 @@ export class LatexEditorComponent implements OnInit, AfterViewInit,OnDestroy {
               CodeMirror.fromTextArea(codeElement, {
                 lineNumbers: true,
                 lineWrapping: true,
-              }).setSize("100%","100%");
+              }).setSize('100%', '100%');
             }
           })
           .catch((error) => {
             console.error('Error loading CodeMirror:', error);
           });
 
-          this.saveFlag=true;
+        this.saveFlag = true;
         const id = Number(this.route.snapshot.paramMap.get('id'));
         if (id) {
-          this.saveFlag=false;
+          this.saveFlag = false;
           this.documentService.getDocumentByIdG(id).then((item) => {
             this.selectedProject = item;
             this.editExistingDocFlag = true;
@@ -372,45 +363,43 @@ export class LatexEditorComponent implements OnInit, AfterViewInit,OnDestroy {
         // ((this.document.getElementById("target"))as HTMLElement ).dispatchEvent(event);
       }
 
-      this.intervalId=setInterval(()=>{
+      this.intervalId = setInterval(() => {
         this.saveDocument();
-      },1000); 
-
+      }, 1000);
     }
-
-
   }
 
-
-
   async saveDocument() {
-console.log("saveing...")
+    console.log('saveing...');
 
-    if(this.saveFlag){
-      console.log("create")
+    if (this.saveFlag) {
+      console.log('create');
       try {
         const name = this.formGroup.get('documentName')?.value;
         const content = this.exampleEncode();
         const date = format(new Date(), "yyyy-MM-dd'T'HH:mm:ss");
-        const newDocId=this.documentService.createDocument(name,content.length,date,content,null,null);
-        newDocId.then((id)=>{
-          this.navigationRouter.navigate(['/selectedProject',id]);
-          console.log('id is')
+        const newDocId = this.documentService.createDocument(
+          name,
+          content.length,
+          date,
+          content,
+          null,
+          null
+        );
+        newDocId.then((id) => {
+          this.navigationRouter.navigate(['/selectedProject', id]);
+          console.log('id is');
           console.log(id);
-          this.saveFlag=false;
-        })
-         } catch (error) {
-      console.error('Error creating document:', error);
-         }
-    }else{
-      console.log("edit")
+          this.saveFlag = false;
+        });
+      } catch (error) {
+        console.error('Error creating document:', error);
+      }
+    } else {
+      console.log('edit');
       this.editDocument();
     }
-
-
   }
-
-
 
   updatePreview() {
     let latexInput = this.codeMirror.codeMirror?.getValue();
