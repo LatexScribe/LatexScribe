@@ -26,12 +26,18 @@ import 'codemirror/addon/search/matchesonscrollbar';
 import 'codemirror/addon/search/jump-to-line';
 
 // @ts-ignore
-const generator = new window.latexjs.HtmlGenerator({
-  hyphenate: true,
-  languagePatterns: en,
-  styles: [],
-});
-
+let generator: any=null;
+// @ts-ignore
+if(window.latesjs){
+  // @ts-ignore
+  generator= new window.latexjs.HtmlGenerator({
+    hyphenate: true,
+    languagePatterns: en,
+    styles: [],
+  });
+  
+}
+ 
 var scrollY = 0;
 
 // @ts-ignore
@@ -480,4 +486,3 @@ console.log("saveing...")
 // @ts-ignore
 import en from 'hyphenation.en-us';
 import { Customdoc } from '../../models/customdoc.model';
-import { log } from 'console';
