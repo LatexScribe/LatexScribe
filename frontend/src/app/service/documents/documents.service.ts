@@ -74,7 +74,7 @@ export class DocumentsService {
    async createDocument(name:string,size:any,lastModified:string,content:string,template:any,tag:any){
 
     const api = axios.create({ baseURL: "http://localhost:8080/" });
-    await api.request({
+   const response= await api.request({
       method: "post",
       url: "api/v1/documents",
    data:   {
@@ -89,6 +89,7 @@ export class DocumentsService {
       Authorization: `Bearer ${this.service.getCurrentUserAcessToken()}`,
     },
     });
+    return response.data;
   }
 
   async getDocumentById(id: string) {

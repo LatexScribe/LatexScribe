@@ -4,6 +4,7 @@ import {
   Component,
   ElementRef,
   Inject,
+  OnDestroy,
   OnInit,
   PLATFORM_ID,
   ViewChild,
@@ -236,7 +237,9 @@ function errorMessage(e, noFinalNewline) {
   templateUrl: './latex-editor.component.html',
   styleUrl: './latex-editor.component.css',
 })
-export class LatexEditorComponent implements OnInit, AfterViewInit {
+export class LatexEditorComponent implements OnInit, AfterViewInit,OnDestroy {
+  
+
   @ViewChild('codemirror') codeMirror!: CodemirrorComponent;
 
   formGroup!: FormGroup;
@@ -244,6 +247,8 @@ export class LatexEditorComponent implements OnInit, AfterViewInit {
   isEdit: boolean = false;
   editExistingDocFlag: boolean = false;
   selectedProject: Customdoc | undefined;
+  saveFlag!:boolean;
+  intervalId:any;
 
   content: string = 'Hello';
 
@@ -254,8 +259,14 @@ export class LatexEditorComponent implements OnInit, AfterViewInit {
     @Inject(PLATFORM_ID) private platformId: Object,
     private documentService: DocumentsService,
     private fb: FormBuilder,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private navigationRouter:Router
   ) {}
+  ngOnDestroy(): void {
+    if (this.intervalId) {
+      clearInterval(this.intervalId);
+    }
+  }
 
   updatePreviewOnKeyUp(event: any) {
     this.updatePreview();
@@ -302,8 +313,10 @@ export class LatexEditorComponent implements OnInit, AfterViewInit {
             console.error('Error loading CodeMirror:', error);
           });
 
+          this.saveFlag=true;
         const id = Number(this.route.snapshot.paramMap.get('id'));
         if (id) {
+          this.saveFlag=false;
           this.documentService.getDocumentByIdG(id).then((item) => {
             this.selectedProject = item;
             this.editExistingDocFlag = true;
@@ -344,8 +357,46 @@ export class LatexEditorComponent implements OnInit, AfterViewInit {
         // console.log(this.document.getElementById("target")as HTMLElement);
         // ((this.document.getElementById("target"))as HTMLElement ).dispatchEvent(event);
       }
+
+      this.intervalId=setInterval(()=>{
+        this.saveDocument();
+      },1000); 
+
     }
+
+
   }
+
+
+
+  async saveDocument() {
+console.log("saveing...")
+
+    if(this.saveFlag){
+      console.log("create")
+      try {
+        const name = this.formGroup.get('documentName')?.value;
+        const content = this.exampleEncode();
+        const date = format(new Date(), "yyyy-MM-dd'T'HH:mm:ss");
+        const newDocId=this.documentService.createDocument(name,content.length,date,content,null,null);
+        newDocId.then((id)=>{
+          this.navigationRouter.navigate(['/selectedProject',id]);
+          console.log('id is')
+          console.log(id);
+          this.saveFlag=false;
+        })
+         } catch (error) {
+      console.error('Error creating document:', error);
+         }
+    }else{
+      console.log("edit")
+      this.editDocument();
+    }
+
+
+  }
+
+
 
   updatePreview() {
     let latexInput = this.codeMirror.codeMirror?.getValue();
