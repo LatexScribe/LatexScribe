@@ -1,29 +1,24 @@
-<h1>Log in</h1>
-
+<h1><b>Log in</b></h1>
     <form [formGroup]="login_form" (ngSubmit)="loginUser()">
+        <div class="form-group">
+            <label for="username">Username</label><br>
+            <input type="text" [formControl]="login_form.controls.username" id="username" name="username"><br>
+        </div>
 
-        <label for="email">Email</label><br>
-        <input type="text" [formControl]="login_form.controls.email"
-        id="email" name="email"><br>
+        <div class="text-danger error-message" *ngIf=" login_form.controls['username'].invalid &&(login_form.controls['username'].touched ||login_form.controls['username'].dirty)" style="width: 100%;">
+          <div class="error" *ngIf="login_form.controls['username'].errors?.['required']">*The username field is required</div>
+        </div>
 
-        <label for="password">Password</label><br>
-        <input type="text" [formControl]="login_form.controls.password"
-        id="password" name="password"><br>
+        <div class="form-group">
+          <label for="password">Password</label><br>
+          <input type="password" [formControl]="login_form.controls.password" id="password" name="password"><br>
+        </div>
+
+        <div class="text-danger error-message" *ngIf=" login_form.controls['password'].invalid &&(login_form.controls['password'].touched ||login_form.controls['password'].dirty)" style="width: 100%;">
+        <div class="error2" *ngIf="login_form.controls['password'].errors?.['required']">*The password is required</div>
+        </div>
 
         <button id="login" type="submit" [disabled]="!login_form.valid">Log in</button>
-
     </form>
-
-    <div *ngIf="login_form.invalid && login_form.controls.email.touched" style="width: 100%;">     
-        <div style=" background-color: palegoldenrod">
-            <b>Validation errors</b>
-            <ol>
-                <li *ngIf="login_form.controls.email.errors?.['required']">The email field is required.</li>
-              
-                <li *ngIf="login_form.controls.password.errors?.['required']">The password field is required.</li>
-              
-              
-            </ol>
-          </div>
-        
-      </div>    
+    
+    <p><i><b>Don't have an Account? <a routerLink="/signup" routerLinkActive="active" ariaCurrentWhenActive="page"><u style="color: darkblue;">Sign up</u></a></b></i></p>

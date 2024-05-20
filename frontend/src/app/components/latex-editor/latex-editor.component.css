@@ -1,0 +1,49 @@
+html, body {
+    height: 100%;
+    margin: 0;
+  }
+  
+.container {
+    height:100%;
+}
+
+  .full-height {
+    height: 100vh; /* 100% of the viewport height */
+  }
+  
+  .container-fluid.full-height {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+  }
+  
+  .row.full-height {
+    flex: 1;
+    display: flex;
+    flex-direction: row;
+  }
+  
+  .col-6.full-height {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  #target, ngx-codemirror, iframe {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+
+}
+  
+  
+  iframe {
+    width: 100%;
+    border: none;
+  }
+  
+
+  ngx-codemirror .CodeMirror.cm-s-monokai.CodeMirror-wrap {
+    height: 100% !important;
+  }

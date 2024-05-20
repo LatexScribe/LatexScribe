@@ -1,0 +1,78 @@
+<form [formGroup]="formGroup">
+  <div class="input-group m-1 w-25">
+    <div *ngIf="isEdit">
+      <input  
+        type="text"
+        id="document_name"
+        class="form-control"
+        formControlName="documentName"
+      />
+    </div>
+    <div *ngIf="!isEdit">
+      <p>{{ name }}</p>
+    </div>
+
+    <div class="row">
+      <div *ngIf="!isEdit" class="col">
+        <button
+        
+          mat-icon-button
+          color="primary"
+          aria-hidden="true"
+          (click)="onEdit()"
+
+        >
+          <mat-icon>edit</mat-icon>
+        </button>
+      </div>
+      <div *ngIf="isEdit" class="col" style="margin: 0; padding: 0">
+        <button mat-icon-button color="primary" (click)="onUpdate()">
+          <mat-icon>done</mat-icon>
+        </button>
+        <button mat-icon-button color="primary" (click)="onCancel()">
+          <mat-icon>cancel</mat-icon>
+        </button>
+      </div>
+    </div>
+  </div>
+</form>
+
+<div class="container-fluid full-height p-0">
+  <div class="row full-height m-0">
+    <div class="col border border-shadow p-0 full-height">
+      <div (keyup)="updatePreviewOnKeyUp($event)" id="target"  class="container">
+        <ngx-codemirror
+          #codemirror
+          [options]="{
+            lineNumbers: true,
+            tabSize: 4,
+            theme: 'monokai',
+            mode: 'stex',
+            styleActiveLine: true,
+            matchBrackets: true,
+            lineWrapping: true,
+            showCursorWhenSelecting: true,
+            autofocus: true,
+            indentUnit: 4,
+            extraKeys: {
+              'Alt-F': 'findPersistent',
+              'Ctrl-G': 'findNext',
+              'Shift-Ctrl-G': 'findPrev',
+              'Shift-Ctrl-F': 'replace',
+              'Shift-Ctrl-R': 'replaceAll',
+            }          
+          }"
+          class="full-height"
+        ></ngx-codemirror>
+      </div>
+    </div>
+    <div class="col-6 border border-shadow p-0 full-height">
+      <iframe
+        id="preview"
+        ref="preview"
+        sandbox="allow-same-origin allow-scripts"
+        class="full-height"
+      ></iframe>
+    </div>
+  </div>
+  </div>
