@@ -4,24 +4,26 @@ import axios from 'axios';
 import { ProjectDataExtended } from '../../models/project-data-extended';
 import { Customdoc } from '../../models/customdoc.model';
 import { Template } from '../../models/template.model';
+import { environment } from '../../../environments/environment';
+
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class DocumentsService {
+  api = axios.create({ baseURL: environment.apiUrl });
+  constructor(private service: AuthenticationService) {}
 
-  api=axios.create({ baseURL: "http://localhost:8080/"  });
-  constructor(private service: AuthenticationService) { }
-
-  async getTemplate(id:number){
-    let response= await this.api.request({
-      method: "get",
+  async getTemplate(id: number) {
+    let response = await this.api.request({
+      method: 'get',
       url: `/api/v1/templates/${id}`,
       headers: {
         Authorization: `Bearer ${this.service.getCurrentUserAcessToken()}`,
       },
     });
 
-    return new Template(response.data.id,
+    return new Template(
+      response.data.id,
       response.data.name,
       response.data.size,
       response.data.content,
@@ -29,65 +31,87 @@ export class DocumentsService {
       response.data.codeName,
       response.data.author,
       response.data.description,
-      response.data.license);
-
+      response.data.license
+    );
   }
 
-  async getTemplates(){
-   
-    let response= await this.api.request({
-      method: "get",
-      url: "api/v1/templates",
+  async getTemplates() {
+    let response = await this.api.request({
+      method: 'get',
+      url: 'api/v1/templates',
       headers: {
         Authorization: `Bearer ${this.service.getCurrentUserAcessToken()}`,
       },
     });
 
+    const dataArray: Template[] = response.data.map((item: any) => {
+      // Assuming response data has id, name, and content properties
+      return new Template(
+        item.id,
+        item.name,
+        item.size,
+        item.content,
+        item.category,
+        item.codeName,
+        item.author,
+        item.description,
+        item.license
+      );
+    });
+
+    return dataArray;
+  }
+
+  async getTemplatesByCategory(category: string) {
+    let response = await this.api.request({
+      method: 'get',
+      url: `api/v1/templates?category=${category}`,
+      headers: {
+        Authorization: `Bearer ${this.service.getCurrentUserAcessToken()}`,
+      },
+    });
 
     const dataArray: Template[] = response.data.map((item: any) => {
       // Assuming response data has id, name, and content properties
-      return new Template(item.id, item.name, item.size, item.content,item.category,item.codeName,item.author,item.description, item.license);
+      return new Template(
+        item.id,
+        item.name,
+        item.size,
+        item.content,
+        item.category,
+        item.codeName,
+        item.author,
+        item.description,
+        item.license
+      );
     });
 
-     return dataArray;
-
+    return dataArray;
   }
 
-  async getTemplatesByCategory(category:string){
-     let response= await this.api.request({
-       method: "get",
-       url: `api/v1/templates?category=${category}`,
-       headers: {
-         Authorization: `Bearer ${this.service.getCurrentUserAcessToken()}`,
-       },
-     });
-     
-
-     const dataArray: Template[] = response.data.map((item: any) => {
-      // Assuming response data has id, name, and content properties
-      return new Template(item.id, item.name, item.size, item.content,item.category,item.codeName,item.author,item.description, item.license);
-    });
-
-     return dataArray;
-   }
-
-   async createDocument(name:string,size:any,lastModified:string,content:string,template:any,tag:any){
-
-    const api = axios.create({ baseURL: "http://localhost:8080/" });
-   const response= await api.request({
-      method: "post",
-      url: "api/v1/documents",
-   data:   {
-        "name": name,
-        "size": size,
-        "lastModified": lastModified,
-        "content": content,
-        "template": template,
-        "tag": tag
-    },
-    headers: {
-      Authorization: `Bearer ${this.service.getCurrentUserAcessToken()}`,
-    },
+  async createDocument(
+    name: string,
+    size: any,
+    lastModified: string,
+    content: string,
+    template: any,
+    tag: any
+  ) {
+    const api = axios.create({ baseURL: 'http://localhost:8080/' });
+    const response = await api.request({
+      method: 'post',
+      url: 'api/v1/documents',
+      data: {
+        name: name,
+        size: size,
+        lastModified: lastModified,
+        content: content,
+        template: template,
+        tag: tag,
+      },
+      headers: {
+        Authorization: `Bearer ${this.service.getCurrentUserAcessToken()}`,
+      },
     });
     return response.data;
   }
@@ -99,10 +123,10 @@ export class DocumentsService {
         method: 'get',
         url: url,
         headers: {
-          Authorization: `Bearer ${this.service.getCurrentUserAcessToken()}`
-        }
+          Authorization: `Bearer ${this.service.getCurrentUserAcessToken()}`,
+        },
       });
-  
+
       if (response.status === 200) {
         console.log('Document retrieved successfully:', response.data);
         return response.data;
@@ -119,28 +143,27 @@ export class DocumentsService {
     }
   }
 
-  async getDocumentByIdG(id:number){
-
-    const api = axios.create({ baseURL: "http://localhost:8080/" });
-    const response=await api.request({
-      method: "get",
+  async getDocumentByIdG(id: number) {
+    const api = axios.create({ baseURL: 'http://localhost:8080/' });
+    const response = await api.request({
+      method: 'get',
       url: `api/v1/documents/${id}`,
-   
-    headers: {
-      Authorization: `Bearer ${this.service.getCurrentUserAcessToken()}`,
-    },
+
+      headers: {
+        Authorization: `Bearer ${this.service.getCurrentUserAcessToken()}`,
+      },
     });
-  
-    return new Customdoc(response.data.id,
+
+    return new Customdoc(
+      response.data.id,
       response.data.name,
       response.data.size,
       response.data.lastModified,
       response.data.content,
-      (response.data.template!=null)? response.data.template.id:null,
-      (response.data.tag!=null)? response.data.tag.id:null,);
+      response.data.template != null ? response.data.template.id : null,
+      response.data.tag != null ? response.data.tag.id : null
+    );
   }
-
-
 
   async getDocumentByName(name?: string) {
     try {
@@ -149,10 +172,10 @@ export class DocumentsService {
         method: 'get',
         url: url,
         headers: {
-          Authorization: `Bearer ${this.service.getCurrentUserAcessToken()}`
-        }
+          Authorization: `Bearer ${this.service.getCurrentUserAcessToken()}`,
+        },
       });
-  
+
       if (response.status === 200) {
         console.log('Document retrieved successfully:', response.data);
         return response.data;
@@ -166,16 +189,16 @@ export class DocumentsService {
     }
   }
 
-  async deleteDocument(id: string){
+  async deleteDocument(id: string) {
     try {
       const response = await this.api.request({
         method: 'delete',
         url: `api/v1/documents/${id}`,
         headers: {
-          Authorization: `Bearer ${this.service.getCurrentUserAcessToken()}`
-        }
+          Authorization: `Bearer ${this.service.getCurrentUserAcessToken()}`,
+        },
       });
-  
+
       if (response.status === 200) {
         console.log(`Document with ID ${id} deleted successfully.`);
       } else {
@@ -186,7 +209,7 @@ export class DocumentsService {
     }
   }
 
-  async getDocuments2(){
+  async getDocuments2() {
     let response = await this.api.request({
       method: 'get',
       url: 'api/v1/documents',
@@ -198,91 +221,94 @@ export class DocumentsService {
     return response;
   }
 
-
-  async getDocuments(){
-    let response= await this.api.request({
-      method: "get",
+  async getDocuments() {
+    let response = await this.api.request({
+      method: 'get',
       url: 'api/v1/documents',
       headers: {
         Authorization: `Bearer ${this.service.getCurrentUserAcessToken()}`,
-        'Content-Type': 'application/json', 
+        'Content-Type': 'application/json',
       },
     });
 
-    console.log("noow");
+    console.log('noow');
     console.log(response.data);
-    console.log("the end");
+    console.log('the end');
     const dataArray: ProjectDataExtended[] = response.data.map((item: any) => {
-      return new ProjectDataExtended(item.id, item.name,
+      return new ProjectDataExtended(
+        item.id,
+        item.name,
         item.size,
         item.lastModified,
         item.content,
         item.template,
-        (item.tag != null) ? item.tag.id : null,
-        (item.tag != null) ? item.tag.name : null);
-   });
+        item.tag != null ? item.tag.id : null,
+        item.tag != null ? item.tag.name : null
+      );
+    });
 
     return dataArray;
   }
 
-
-  async getTags(){
+  async getTags() {
     let response = await this.api.request({
       method: 'get',
       url: 'api/v1/tags',
       headers: {
-        Authorization: `Bearer ${this.service.getCurrentUserAcessToken()}`
+        Authorization: `Bearer ${this.service.getCurrentUserAcessToken()}`,
       },
     });
     return response;
   }
 
-  
-
   // POST /api/v1/documents/template/{templateID}
-  async createDocumentFromTemplate(id:string){
-
-    const api = axios.create({ baseURL: "http://localhost:8080/" });
-    const response=await api.request({
-      method: "post",
+  async createDocumentFromTemplate(id: string) {
+    const api = axios.create({ baseURL: 'http://localhost:8080/' });
+    const response = await api.request({
+      method: 'post',
       url: `/api/v1/documents/template/${id}`,
-   
-    headers: {
-      Authorization: `Bearer ${this.service.getCurrentUserAcessToken()}`,
-    },
+
+      headers: {
+        Authorization: `Bearer ${this.service.getCurrentUserAcessToken()}`,
+      },
     });
-  console.log("the id is ")
+    console.log('the id is ');
     console.log(response.data);
-    console.log("THE END")
+    console.log('THE END');
 
     return response.data;
-
   }
 
-
-  async changeDocumentTest(id: string, name: string, size: any, lastModified: string, content: string, template: number | null, tag: number|null) {
+  async changeDocumentTest(
+    id: string,
+    name: string,
+    size: any,
+    lastModified: string,
+    content: string,
+    template: number | null,
+    tag: number | null
+  ) {
     try {
       const url = `api/v1/documents/${id}`;
       const response = await this.api.request({
         method: 'put',
         url: url,
         data: {
-          "name": name,
-          "size": size,
-          "lastModified": lastModified,
-          "content": content,
-          "template": (template==null)? null:{"id":template},
-          "tag": (tag==null)? null:{"id":tag}
+          name: name,
+          size: size,
+          lastModified: lastModified,
+          content: content,
+          template: template == null ? null : { id: template },
+          tag: tag == null ? null : { id: tag },
         },
         headers: {
           Authorization: `Bearer ${this.service.getCurrentUserAcessToken()}`,
         },
       });
-      
+
       console.log('Document updated successfully:', response.data);
     } catch (error) {
       console.error('Error updating document:', error);
     }
   }
-  
 }
