@@ -363,7 +363,7 @@ export class LatexEditorComponent implements OnInit, AfterViewInit, OnDestroy {
 
       this.intervalId = setInterval(() => {
         this.saveDocument();
-      }, 1000);
+      }, 5000);
     }
   }
 
@@ -371,8 +371,9 @@ export class LatexEditorComponent implements OnInit, AfterViewInit, OnDestroy {
     console.log('saveing...');
 
     if (this.saveFlag) {
-      console.log('create');
+      console.log('creating');
       try {
+        this.saveFlag = false;
         const name = this.formGroup.get('documentName')?.value;
         const content = this.exampleEncode();
         const date = format(new Date(), "yyyy-MM-dd'T'HH:mm:ss");
@@ -388,7 +389,6 @@ export class LatexEditorComponent implements OnInit, AfterViewInit, OnDestroy {
           this.navigationRouter.navigate(['/selectedProject', id]);
           console.log('id is');
           console.log(id);
-          this.saveFlag = false;
         });
       } catch (error) {
         console.error('Error creating document:', error);
