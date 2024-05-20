@@ -97,7 +97,7 @@ export class DocumentsService {
     template: any,
     tag: any
   ) {
-    const api = axios.create({ baseURL: 'http://localhost:8080/' });
+    const api = axios.create({ baseURL: environment.apiUrl });
     const response = await api.request({
       method: 'post',
       url: 'api/v1/documents',
@@ -144,7 +144,7 @@ export class DocumentsService {
   }
 
   async getDocumentByIdG(id: number) {
-    const api = axios.create({ baseURL: 'http://localhost:8080/' });
+    const api = axios.create({ baseURL: environment.apiUrl });
     const response = await api.request({
       method: 'get',
       url: `api/v1/documents/${id}`,
@@ -263,7 +263,7 @@ export class DocumentsService {
 
   // POST /api/v1/documents/template/{templateID}
   async createDocumentFromTemplate(id: string) {
-    const api = axios.create({ baseURL: 'http://localhost:8080/' });
+    const api = axios.create({ baseURL: environment.apiUrl });
     const response = await api.request({
       method: 'post',
       url: `/api/v1/documents/template/${id}`,

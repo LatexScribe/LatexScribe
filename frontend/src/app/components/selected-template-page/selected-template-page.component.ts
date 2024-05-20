@@ -47,8 +47,7 @@ export class SelectedTemplatePageComponent implements OnInit {
     }
   }
   openPdf() {
-    const url = `http://localhost:8080/public/templates/${this.selectedTemplate?.codeName}/source.pdf`; //"http://localhost:8080/public/templates/RESUME/Jakes_Resume/image.jpg"; //"http://localhost:4200/public/templates/RESUME/Jakes_Resume/source.pdf"
-    console.log('yes');
+    const url = `${environment.apiUrl}/public/templates/${this.selectedTemplate?.codeName}/source.pdf`;
     window.open(url);
   }
 }
