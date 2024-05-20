@@ -8,6 +8,7 @@ import {
   OnInit,
   PLATFORM_ID,
   ViewChild,
+  ViewEncapsulation
 } from '@angular/core';
 import { DOCUMENT, isPlatformBrowser } from '@angular/common';
 import { CodemirrorComponent } from '@ctrl/ngx-codemirror';
@@ -18,6 +19,11 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatSelectModule } from '@angular/material/select';
 import { MatInputModule } from '@angular/material/input';
 import { ActivatedRoute, Router } from '@angular/router';
+import 'codemirror/mode/stex/stex';
+import 'codemirror/addon/search/search';
+import 'codemirror/addon/search/searchcursor';
+import 'codemirror/addon/search/matchesonscrollbar';
+import 'codemirror/addon/search/jump-to-line';
 
 // @ts-ignore
 const generator = new window.latexjs.HtmlGenerator({
@@ -236,6 +242,8 @@ function errorMessage(e, noFinalNewline) {
   selector: 'app-latex-editor',
   templateUrl: './latex-editor.component.html',
   styleUrl: './latex-editor.component.css',
+  encapsulation: ViewEncapsulation.None,
+
 })
 export class LatexEditorComponent implements OnInit, AfterViewInit,OnDestroy {
   
@@ -306,7 +314,7 @@ export class LatexEditorComponent implements OnInit, AfterViewInit,OnDestroy {
               CodeMirror.fromTextArea(codeElement, {
                 lineNumbers: true,
                 lineWrapping: true,
-              });
+              }).setSize("100%","100%");
             }
           })
           .catch((error) => {

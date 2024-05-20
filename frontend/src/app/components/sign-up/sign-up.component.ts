@@ -1,6 +1,7 @@
 import { AuthenticationService } from './../../service/authentication/authentication.service';
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import {Router } from '@angular/router';
 
 @Component({
   selector: 'app-sign-up',
@@ -15,7 +16,7 @@ export class SignUpComponent implements OnInit {
     password: new FormControl<string>('', [Validators.required, Validators.maxLength(30)]),
   });
 
-  constructor(private service: AuthenticationService) { }
+  constructor(private service: AuthenticationService,private router: Router) { }
 
   signUpUser(){
     if(this.signup_form.value.username!=null&&this.signup_form.value.full_name!=null&&this.signup_form.value.email!=null&&this.signup_form.value.password!=null)
@@ -23,6 +24,7 @@ export class SignUpComponent implements OnInit {
         this.signup_form.value.full_name,this.signup_form.value.email,this.signup_form.value.password
       )
       this.signup_form.reset();
+      this.router.navigate(['/templates']);
 
   }
 

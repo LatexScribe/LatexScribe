@@ -39,7 +39,9 @@
               "src/styles.css",
               "node_modules/bootstrap/dist/css/bootstrap.min.css",
               "node_modules/codemirror/lib/codemirror.css",
-              "node_modules/codemirror/theme/monokai.css"
+              "node_modules/codemirror/theme/monokai.css",
+              "node_modules/codemirror/addon/dialog/dialog.css",
+              "node_modules/codemirror/addon/search/matchesonscrollbar.css"
             ],
             "scripts": [],
             "server": "src/main.server.ts",

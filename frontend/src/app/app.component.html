@@ -13,7 +13,7 @@
   <a routerLink="/login" *ngIf="!currentUserUsername" class="btn btn-outline-dark rounded-pill ">Log in</a>
   <a routerLink="/login"  *ngIf="currentUserUsername" class="btn btn-outline-dark rounded-pill " (click)='logoutUser()' >Log out</a>
 
-  <a routerLink="/signup" class="btn btn-outline-dark rounded-pill ms-2 me-2">Sign up</a>
+  <a routerLink="/signup" *ngIf="!currentUserUsername" class="btn btn-outline-dark rounded-pill ms-2 me-2">Sign up</a>
 
 
 </div>

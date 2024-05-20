@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthenticationService } from './service/authentication/authentication.service';
+import {Router } from '@angular/router';
+
 
 @Component({
   selector: 'app-root',
@@ -10,7 +12,7 @@ export class AppComponent implements OnInit {
   title = 'angular-latex';
   
  currentUserUsername:string="";
-  constructor(private service: AuthenticationService) { 
+  constructor(private service: AuthenticationService, private router: Router) { 
   }
   ngOnInit(): void {
     this.service.onAuthenticationChanged().subscribe((username:string) =>{
@@ -22,6 +24,7 @@ export class AppComponent implements OnInit {
 
   logoutUser(){
     this.service.logout();
+    this.router.navigate(['/']);
   }
 
 }
