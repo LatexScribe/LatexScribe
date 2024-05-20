@@ -45,10 +45,26 @@ function links() {
   }
 }
 
+// @ts-ignore
+function createDownloadButton() {
+  let button = document.createElement('button');
+  button.innerHTML = 'Save PDF';
+  button.style.position = 'absolute';
+  button.style.top = '10px';
+  button.style.right = '10px';
+  button.classList.add('hidden-print');
+  button.classList.add('btn', 'btn-primary', 'm-1');
+  button.addEventListener('click', () => {
+    window.print();
+  });
+
+  document.body.appendChild(button);
+}
+
 /* function to compile latex source into the given iframe */
 // @ts-ignore
-function compile(latex, iframe) {
-  var doc = iframe.contentDocument;
+function compile(latex, iframe, title) {
+  let doc = iframe.contentDocument;
 
   if (doc.readyState !== 'complete') return;
 
@@ -66,16 +82,43 @@ function compile(latex, iframe) {
       'document.addEventListener("DOMContentLoaded", ' + links.toString() + ')';
     newDoc.head.appendChild(linkScript);
 
+    // Add bootstrap to iframe
+    var bootstrapStyle = newDoc.createElement('link');
+    bootstrapStyle.href =
+      'https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css';
+    bootstrapStyle.rel = 'stylesheet';
+    newDoc.head.appendChild(bootstrapStyle);
+
+    // Add special style for hiding pdf download button on print call.
+    var downloadStyle = newDoc.createElement('style');
+    downloadStyle.innerHTML = `
+    @media print {
+      .hidden-print {
+        display: none !important;
+      }
+    }`;
+    newDoc.head.appendChild(downloadStyle);
+
+    // Add createDownloadButton function to iframe and trigger on initial load.
+    var downloadScript = newDoc.createElement('script');
+    downloadScript.text = `
+      ${createDownloadButton.toString()}
+      document.addEventListener("DOMContentLoaded", createDownloadButton)
+    `;
+    newDoc.head.appendChild(downloadScript);
+
     // don't reload all the styles and fonts if not needed!
     if (doc.head.innerHTML == newDoc.head.innerHTML) {
       var newBody = doc.adoptNode(newDoc.body);
       doc.documentElement.replaceChild(newBody, doc.body);
       doc.documentElement.style.cssText = newDoc.documentElement.style.cssText;
+
+      // Trigger download pdf button creation on body update.
+      var triggerButtonCreation = doc.createElement('script');
+      triggerButtonCreation.text = `createDownloadButton();`;
+      doc.body.appendChild(triggerButtonCreation);
     } else {
       iframe.srcdoc = newDoc.documentElement.outerHTML;
-
-      // var blob = new Blob([newDoc.documentElement.innerHTML], {type : 'text/html'});
-      // iframe.src = URL.createObjectURL(blob);
     }
 
     if (scrollY) {
@@ -116,6 +159,8 @@ function compile(latex, iframe) {
       doc.body.innerHTML = '<pre class="error">ERROR: ' + e.message + '</pre>';
     }
   }
+
+  iframe.contentDocument.title = title;
 }
 
 // @ts-ignore
@@ -167,7 +212,7 @@ function excerpt(txt, o) {
 /* render a useful error message */
 // @ts-ignore
 function errorMessage(e, noFinalNewline) {
-  var l = e.location; 
+  var l = e.location;
   var prefix1 = 'line ' + e.line + ' (column ' + e.column + '): ';
   var prefix2 = '';
   for (var i = 0; i < prefix1.length + l.prolog.length; i++) prefix2 += '-';
@@ -197,10 +242,9 @@ export class LatexEditorComponent implements OnInit, AfterViewInit {
   formGroup!: FormGroup;
   name: string = 'Initial Project Name';
   isEdit: boolean = false;
-  editExistingDocFlag: boolean=false;
-  selectedProject: Customdoc|undefined;
+  editExistingDocFlag: boolean = false;
+  selectedProject: Customdoc | undefined;
 
-  
   content: string = 'Hello';
 
   @ViewChild('preview') preview!: ElementRef;
@@ -210,35 +254,31 @@ export class LatexEditorComponent implements OnInit, AfterViewInit {
     @Inject(PLATFORM_ID) private platformId: Object,
     private documentService: DocumentsService,
     private fb: FormBuilder,
-    private route: ActivatedRoute,
-  
-  ) {
-  }
+    private route: ActivatedRoute
+  ) {}
 
-
-  updatePreviewOnKeyUp(event:any){
+  updatePreviewOnKeyUp(event: any) {
     this.updatePreview();
   }
 
   ngOnInit(): void {
-
     this.formGroup = this.fb.group({
       documentName: [this.name],
     });
   }
 
-  onUpdate():void{
+  onUpdate(): void {
     this.name = this.formGroup.get('documentName')?.value;
     this.isEdit = false;
     //call the API for editing
   }
 
-  onEdit():void {
+  onEdit(): void {
     this.isEdit = true;
     this.formGroup.get('documentName')?.setValue(this.name);
   }
 
-  onCancel():void {
+  onCancel(): void {
     this.isEdit = false;
     this.formGroup.get('documentName')?.setValue(this.name);
   }
@@ -255,80 +295,72 @@ export class LatexEditorComponent implements OnInit, AfterViewInit {
               CodeMirror.fromTextArea(codeElement, {
                 lineNumbers: true,
                 lineWrapping: true,
-                
-                
-              
               });
-              
             }
           })
           .catch((error) => {
             console.error('Error loading CodeMirror:', error);
           });
-          
+
         const id = Number(this.route.snapshot.paramMap.get('id'));
         if (id) {
-          this.documentService.getDocumentByIdG(id).then(item => {
+          this.documentService.getDocumentByIdG(id).then((item) => {
             this.selectedProject = item;
             this.editExistingDocFlag = true;
-            console.log("the element: ")
-            console.log(this.document.getElementById("document_name"));
+            console.log('the element: ');
+            console.log(this.document.getElementById('document_name'));
 
             this.name = this.selectedProject.name;
             this.formGroup.get('documentName')?.setValue(this.name);
 
-
             if (this.selectedProject?.content) {
-              this.codeMirror.writeValue(this.decodeFromBase64(this.selectedProject.content));
+              this.codeMirror.writeValue(
+                this.decodeFromBase64(this.selectedProject.content)
+              );
               this.updatePreview();
             }
-
-
           });
         }
 
         // this.codeMirror.value=`adh`;
-        console.log("the content is");
+        console.log('the content is');
         console.log(this.selectedProject?.content);
-        if(this.selectedProject?.content){
+        if (this.selectedProject?.content) {
           console.log(this.selectedProject.content);
-          this.codeMirror.writeValue(this.decodeFromBase64(this.selectedProject.content));
+          this.codeMirror.writeValue(
+            this.decodeFromBase64(this.selectedProject.content)
+          );
           this.updatePreview();
         }
-        console.log("the end");
-        
-        
+        console.log('the end');
+
         // const event = new KeyboardEvent('keyup', {
         //   key: 'ArrowUp', // or 'ArrowDown', 'ArrowLeft', 'ArrowRight'
         //   code: 'ArrowUp', // Optional: You can also specify the code property
         //   bubbles: true
         // });
-        
+
         // console.log("eve");
         // console.log(this.document.getElementById("target")as HTMLElement);
         // ((this.document.getElementById("target"))as HTMLElement ).dispatchEvent(event);
-
-        
       }
-
-      
     }
   }
 
-
   updatePreview() {
     let latexInput = this.codeMirror.codeMirror?.getValue();
-    if(latexInput==undefined && this.selectedProject?.content )
-      latexInput=this.decodeFromBase64(this.selectedProject?.content);
-    console.log('Hello:::::', latexInput, window);
-    
-      try {
-        let latexPreview = this.document.getElementById('preview');
-        console.log('Updated', latexInput, latexPreview);
-        compile(latexInput, latexPreview);
-      } catch (error) {
-        console.error('Error rendering LaTeX:', error);
-      }
+    if (latexInput == undefined && this.selectedProject?.content)
+      latexInput = this.decodeFromBase64(this.selectedProject?.content);
+
+    try {
+      let latexPreview = this.document.getElementById('preview');
+
+      const name = this.name;
+      const date = format(new Date(), 'yyyy-MM-dd');
+      compile(latexInput, latexPreview, `${name} ${date}`);
+    } catch (error) {
+      console.error('Error rendering LaTeX:', error);
+    }
   }
 
   updateContent() {
@@ -340,31 +372,21 @@ export class LatexEditorComponent implements OnInit, AfterViewInit {
     }
   }
 
+  editDocument() {
+    const name: string = this.formGroup.get('documentName')?.value;
 
-  editDocument(){
-    const name :string = this.formGroup.get('documentName')?.value;
-
-    if(this.selectedProject!=null)
-    this.documentService.changeDocumentTest(this.selectedProject.id,
-     (name.trim().length>0)? name: "Untitled",
-      this.selectedProject?.size,
-      this.selectedProject?.lastModified,
-    this.exampleEncode(),
-    (this.selectedProject.template_id)? Number(this.selectedProject.template_id):null,
-    (this.selectedProject.tag_id)? Number(this.selectedProject.tag_id):null,);
-    
-
-  }
-
-  async saveDocument() {
-    try {
-    const name = this.formGroup.get('documentName')?.value;
-    const content = this.exampleEncode();
-    const date = format(new Date(), "yyyy-MM-dd'T'HH:mm:ss");
-    this.documentService.createDocument(name,content.length,date,content,null,null);
-     } catch (error) {
-  console.error('Error creating document:', error);
-     }
+    if (this.selectedProject != null)
+      this.documentService.changeDocumentTest(
+        this.selectedProject.id,
+        name.trim().length > 0 ? name : 'Untitled',
+        this.selectedProject?.size,
+        this.selectedProject?.lastModified,
+        this.exampleEncode(),
+        this.selectedProject.template_id
+          ? Number(this.selectedProject.template_id)
+          : null,
+        this.selectedProject.tag_id ? Number(this.selectedProject.tag_id) : null
+      );
   }
 
   encodeToBase64(str: string): string {
@@ -377,17 +399,17 @@ export class LatexEditorComponent implements OnInit, AfterViewInit {
 
   exampleEncode() {
     const latexInput = this.codeMirror.codeMirror?.getValue();
-    let encodedString='';
-    if(latexInput){
+    let encodedString = '';
+    if (latexInput) {
       encodedString = this.encodeToBase64(latexInput);
     }
     return encodedString;
   }
 
-  exampleEncodeDecode(base64encodedString:string) {
+  exampleEncodeDecode(base64encodedString: string) {
     const latexInput = this.codeMirror.codeMirror?.getValue();
-    let decodedString='';
-    if(latexInput){
+    let decodedString = '';
+    if (latexInput) {
       decodedString = this.decodeFromBase64(base64encodedString);
     }
     return decodedString;
@@ -399,4 +421,4 @@ export class LatexEditorComponent implements OnInit, AfterViewInit {
 // @ts-ignore
 import en from 'hyphenation.en-us';
 import { Customdoc } from '../../models/customdoc.model';
-
+import { log } from 'console';

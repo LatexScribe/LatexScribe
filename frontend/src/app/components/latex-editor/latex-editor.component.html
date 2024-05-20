@@ -37,8 +37,6 @@
   </div>
 </form>
 
-
-<button class="btn btn-primary m-1" (click)="saveDocument()" *ngIf="!editExistingDocFlag">Save PDF</button>
 <button class="btn btn-primary m-1" (click)="editDocument()" *ngIf="editExistingDocFlag">Edit PDF</button>
 
 <div class="row">
@@ -63,7 +61,8 @@
     <iframe
       id="preview"
       ref="preview"
-      sandbox="allow-same-origin allow-scripts"
+      name="preview"
+      sandbox="allow-same-origin allow-scripts allow-modals allow-popups"
       width="100%"
       height="300px"
     ></iframe>
