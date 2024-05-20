@@ -14,7 +14,7 @@
         <div class="container">
           <div class="row justify-content-end">
             <!-- Download Pdf Button -->
-            <div class="col-auto">
+            <!-- <div class="col-auto">
               <div class="d-flex justify-content-center">
                 <button
                   [disabled]="!hasSelectedRows()"
@@ -27,7 +27,7 @@
                 </button>
               </div>
             </div>
-        
+         -->
             <!-- Select Tag Form -->
             <div class="col-auto" style="width: 400px;">
               <form [formGroup]="form" (ngSubmit)="changeTagsOfSelectedRows()">
@@ -38,9 +38,7 @@
                     <mat-option *ngFor="let tag of tags" [value]="tag.name">{{ tag.name }}</mat-option>
                   </mat-select>
                 </mat-form-field>
-                <button id="signup" type="submit" [disabled]="(!form.valid || !hasSelectedRows())" class="btn btn-primary">Submit</button>
-
-                <p>Selected: {{ tagControl.value }}</p>
+                <button id="signup" type="submit" [disabled]="(!form.valid || !hasSelectedRows())" class="btn btn-primary m-1">Submit</button>
 
               </form>
             </div>
@@ -148,11 +146,11 @@
                         <mat-icon>delete</mat-icon>
                       </button>
                     </div>
-                    <div class="col" style="margin: 0; padding: 0">
+                    <!-- <div class="col" style="margin: 0; padding: 0">
                       <button mat-icon-button color="primary">
                         <mat-icon>picture_as_pdf</mat-icon>
                       </button>
-                    </div>
+                    </div> -->
                   </div>
                 </div>
               </td>
